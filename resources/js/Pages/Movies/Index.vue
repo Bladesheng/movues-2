@@ -4,18 +4,38 @@ import PosterCard from '@/components/PosterCard.vue';
 import { ref, watch } from 'vue';
 import { route } from 'ziggy-js';
 
+type IMovie = {
+	id: number;
+	name: string;
+	poster_path: string;
+	popularity: number;
+	vote_average: number;
+	vote_count: number;
+	release_date: string;
+	created_at: string;
+	updated_at: string;
+};
+
 const { movies, genres, filters } = defineProps<{
 	movies: {
-		id: number;
-		name: string;
-		poster_path: string;
-		popularity: number;
-		vote_average: number;
-		vote_count: number;
-		release_date: string;
-		created_at: string;
-		updated_at: string;
-	}[];
+		current_page: number;
+		data: IMovie[];
+		first_page_url: string;
+		from: number;
+		last_page: number;
+		last_page_url: string;
+		links: {
+			url: string | null;
+			label: string;
+			active: boolean;
+		}[];
+		next_page_url: string | null;
+		path: string;
+		per_page: number;
+		prev_page_url: string | null;
+		to: number;
+		total: number;
+	};
 
 	genres: {
 		id: number;
@@ -50,12 +70,21 @@ watch(
 			{
 				preserveState: true,
 				preserveScroll: true,
-				replace: true,
 			}
 		);
 	},
 	{ deep: true }
 );
+
+function loadMore() {
+	router.reload({
+		only: ['movies'],
+		data: {
+			page: movies.current_page + 1,
+		},
+		preserveUrl: true,
+	});
+}
 </script>
 
 <template>
@@ -113,17 +142,27 @@ watch(
 			</div>
 		</section>
 
-		<section class="grid grow gap-4">
-			<div v-for="movie in movies" :key="movie.id">
-				<PosterCard
-					:name="movie.name"
-					:releaseDate="new Date(movie.release_date)"
-					:posterPath="movie.poster_path"
-					:popularity="movie.popularity"
-					:voteAverage="movie.vote_average"
-					:voteCount="movie.vote_count"
-				/>
+		<section class="flex grow flex-col gap-6">
+			<div class="grid gap-4">
+				<div v-for="movie in movies.data" :key="movie.id">
+					<PosterCard
+						:name="movie.name"
+						:releaseDate="new Date(movie.release_date)"
+						:posterPath="movie.poster_path"
+						:popularity="movie.popularity"
+						:voteAverage="movie.vote_average"
+						:voteCount="movie.vote_count"
+					/>
+				</div>
 			</div>
+
+			<button
+				v-if="movies.current_page < movies.last_page"
+				class="btn self-center"
+				@click="loadMore()"
+			>
+				Load more
+			</button>
 		</section>
 	</div>
 </template>

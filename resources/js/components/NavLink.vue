@@ -10,9 +10,9 @@ const { href, active } = defineProps<{
 <template>
 	<Link
 		:href
-		class="btn text-xl"
+		class="btn btn-ghost text-xl"
 		:class="{
-			'btn-ghost': !active,
+			'btn-active': active,
 		}"
 	>
 		<slot />
