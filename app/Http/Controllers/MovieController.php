@@ -24,12 +24,13 @@ class MovieController extends Controller
 
 		$popularity = (int) ($request->input('popularity') ?? 5);
 		$age = (int) ($request->input('age') ?? 30);
+		$order = $request->input('order') ?? 'release_date';
 
 		// @TODO infinite scroll pagination
 		$movies = Movie::query()
 			->where('popularity', '>=', $popularity)
 			->where('release_date', '>=', Carbon::now()->subDays($age)->toDateString())
-			->orderBy('release_date')
+			->orderBy($order, $order === 'release_date' ? 'asc' : 'desc')
 			->get();
 
 		$genres = MovieGenre::all();
@@ -40,6 +41,7 @@ class MovieController extends Controller
 			'filters' => [
 				'popularity' => $popularity,
 				'age' => $age,
+				'order' => $order,
 			],
 		]);
 	}

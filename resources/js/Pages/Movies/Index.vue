@@ -25,14 +25,16 @@ const { movies, genres, filters } = defineProps<{
 	}[];
 
 	filters: {
-		popularity: string;
-		age: string;
+		popularity: number;
+		age: number;
+		order: string;
 	};
 }>();
 
 const filter = ref({
 	popularity: filters.popularity,
 	age: filters.age,
+	order: filters.order,
 });
 
 // @TODO throttle / debounce
@@ -60,6 +62,28 @@ watch(
 	<div class="flex gap-4">
 		<section class="flex min-w-64 flex-col gap-4">
 			<strong>Filters</strong>
+
+			Sort by
+			<div class="flex items-center gap-2">
+				<input
+					v-model="filter.order"
+					value="release_date"
+					id="order-release_date"
+					type="radio"
+					class="radio"
+				/>
+				<label for="order-release_date" class="">Release date</label>
+			</div>
+			<div class="flex items-center gap-2">
+				<input
+					v-model="filter.order"
+					value="popularity"
+					id="order-popularity"
+					type="radio"
+					class="radio"
+				/>
+				<label for="order-popularity" class="">Popularity</label>
+			</div>
 
 			<label class="input">
 				<span class="label">Minimal popularity </span>
