@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MovieController extends Controller
 {
@@ -18,6 +19,12 @@ class MovieController extends Controller
 		//			$query->where('movie_genres.id', $genreId);
 		//		})
 		//		->get();
+
+		$movies = Movie::all();
+
+		return Inertia::render('Movies/Index', [
+			'movies' => $movies,
+		]);
 	}
 
 	/**
