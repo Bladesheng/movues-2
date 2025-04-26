@@ -4,6 +4,8 @@ import PosterCard from '@/components/PosterCard.vue';
 import { ref, watch } from 'vue';
 import { route } from 'ziggy-js';
 import ScaleTransitionGroup from '@/components/ScaleTransitionGroup.vue';
+import { debounce } from 'throttle-debounce';
+import SliderWithInput from '@/components/SliderWithInput.vue';
 
 type IMovie = {
 	id: number;
@@ -59,24 +61,6 @@ const filter = ref({
 	genres: [],
 });
 
-// @TODO throttle / debounce
-watch(
-	filter,
-	(value) => {
-		router.get(
-			route('movies.index'),
-			{
-				...value,
-			},
-			{
-				preserveState: true,
-				preserveScroll: true,
-			}
-		);
-	},
-	{ deep: true }
-);
-
 function loadMore() {
 	router.reload({
 		only: ['movies'],
@@ -86,6 +70,21 @@ function loadMore() {
 		preserveUrl: true,
 	});
 }
+
+const refreshFilters = debounce(200, (value: any) => {
+	router.get(
+		route('movies.index'),
+		{
+			...value,
+		},
+		{
+			preserveState: true,
+			preserveScroll: true,
+		}
+	);
+});
+
+watch(filter, refreshFilters, { deep: true });
 </script>
 
 <template>
@@ -115,15 +114,15 @@ function loadMore() {
 				<label for="order-popularity" class="">Popularity</label>
 			</div>
 
-			<label class="input">
-				<span class="label">Minimal popularity </span>
-				<input v-model="filter.popularity" type="number" />
-			</label>
+			<SliderWithInput
+				v-model="filter.popularity"
+				id="popularity"
+				label="Minimum popularity"
+				:max="200"
+				step="5"
+			/>
 
-			<label class="input">
-				<span class="label">Max. movie age (days) </span>
-				<input v-model="filter.age" type="number" />
-			</label>
+			<SliderWithInput v-model="filter.age" id="age" label="Max. movie age (days)" :max="90" />
 
 			Genres
 			<div class="flex flex-col gap-2">
@@ -166,6 +165,7 @@ function loadMore() {
 			>
 				Load more
 			</button>
+			<div v-else class="self-center text-gray-400">That's all...</div>
 		</section>
 	</div>
 </template>
