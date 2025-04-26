@@ -35,13 +35,13 @@ const filter = ref({
 	popularity: filters.popularity,
 	age: filters.age,
 	order: filters.order,
+	genres: [],
 });
 
 // @TODO throttle / debounce
 watch(
 	filter,
 	(value) => {
-		console.log(value);
 		router.get(
 			route('movies.index'),
 			{
@@ -94,6 +94,23 @@ watch(
 				<span class="label">Max. movie age (days) </span>
 				<input v-model="filter.age" type="number" />
 			</label>
+
+			Genres
+			<div class="flex flex-col gap-2">
+				<div v-for="genre in genres" :key="genre.id" class="flex items-center gap-2">
+					<input
+						v-model="filter.genres"
+						:value="genre.id"
+						:id="`genre-${genre.id}`"
+						type="checkbox"
+						class="checkbox"
+					/>
+
+					<label :for="`genre-${genre.id}`">
+						{{ genre.name }}
+					</label>
+				</div>
+			</div>
 		</section>
 
 		<section class="grid grow gap-4">

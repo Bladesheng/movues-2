@@ -25,23 +25,33 @@ class MovieController extends Controller
 		$popularity = (int) ($request->input('popularity') ?? 5);
 		$age = (int) ($request->input('age') ?? 30);
 		$order = $request->input('order') ?? 'release_date';
+		$genres = $request->input('genres') ?? [];
 
 		// @TODO infinite scroll pagination
 		$movies = Movie::query()
 			->where('popularity', '>=', $popularity)
 			->where('release_date', '>=', Carbon::now()->subDays($age)->toDateString())
+			->when(!empty($genres), function ($query) use ($genres) {
+				$query->whereHas(
+					'movieGenres',
+					function ($query) use ($genres) {
+						$query->whereIn('movie_genres.id', $genres);
+					},
+					'=',
+					count($genres)
+				);
+			})
 			->orderBy($order, $order === 'release_date' ? 'asc' : 'desc')
 			->get();
 
-		$genres = MovieGenre::all();
-
 		return Inertia::render('Movies/Index', [
 			'movies' => $movies,
-			'genres' => $genres,
+			'genres' => MovieGenre::all(),
 			'filters' => [
 				'popularity' => $popularity,
 				'age' => $age,
 				'order' => $order,
+				'genres' => $genres,
 			],
 		]);
 	}
