@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\MovieGenre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class MovieController extends Controller
@@ -11,7 +13,7 @@ class MovieController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index()
+	public function index(Request $request)
 	{
 		//	$genreId = 80;
 		//	$movies = Movie::with('movieGenres')
@@ -20,10 +22,25 @@ class MovieController extends Controller
 		//		})
 		//		->get();
 
-		$movies = Movie::query()->orderBy('release_date')->get();
+		$popularity = (int) ($request->input('popularity') ?? 5);
+		$age = (int) ($request->input('age') ?? 30);
+
+		// @TODO infinite scroll pagination
+		$movies = Movie::query()
+			->where('popularity', '>=', $popularity)
+			->where('release_date', '>=', Carbon::now()->subDays($age)->toDateString())
+			->orderBy('release_date')
+			->get();
+
+		$genres = MovieGenre::all();
 
 		return Inertia::render('Movies/Index', [
 			'movies' => $movies,
+			'genres' => $genres,
+			'filters' => [
+				'popularity' => $popularity,
+				'age' => $age,
+			],
 		]);
 	}
 

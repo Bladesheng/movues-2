@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3';
 import PosterCard from '@/components/PosterCard.vue';
+import { ref, watch } from 'vue';
+import { route } from 'ziggy-js';
 
-const { movies } = defineProps<{
+const { movies, genres, filters } = defineProps<{
 	movies: {
 		id: number;
 		name: string;
@@ -13,23 +16,74 @@ const { movies } = defineProps<{
 		created_at: string;
 		updated_at: string;
 	}[];
+
+	genres: {
+		id: number;
+		name: string;
+		created_at: string;
+		updated_at: string;
+	}[];
+
+	filters: {
+		popularity: string;
+		age: string;
+	};
 }>();
+
+const filter = ref({
+	popularity: filters.popularity,
+	age: filters.age,
+});
+
+// @TODO throttle / debounce
+watch(
+	filter,
+	(value) => {
+		console.log(value);
+		router.get(
+			route('movies.index'),
+			{
+				...value,
+			},
+			{
+				preserveState: true,
+				preserveScroll: true,
+				replace: true,
+			}
+		);
+	},
+	{ deep: true }
+);
 </script>
 
 <template>
-	<h1>Movies</h1>
+	<div class="flex gap-4">
+		<section class="flex min-w-64 flex-col gap-4">
+			<strong>Filters</strong>
 
-	<div class="grid gap-4">
-		<div v-for="movie in movies" :key="movie.id">
-			<PosterCard
-				:name="movie.name"
-				:releaseDate="new Date(movie.release_date)"
-				:posterPath="movie.poster_path"
-				:popularity="movie.popularity"
-				:voteAverage="movie.vote_average"
-				:voteCount="movie.vote_count"
-			/>
-		</div>
+			<label class="input">
+				<span class="label">Minimal popularity </span>
+				<input v-model="filter.popularity" type="number" />
+			</label>
+
+			<label class="input">
+				<span class="label">Max. movie age (days) </span>
+				<input v-model="filter.age" type="number" />
+			</label>
+		</section>
+
+		<section class="grid grow gap-4">
+			<div v-for="movie in movies" :key="movie.id">
+				<PosterCard
+					:name="movie.name"
+					:releaseDate="new Date(movie.release_date)"
+					:posterPath="movie.poster_path"
+					:popularity="movie.popularity"
+					:voteAverage="movie.vote_average"
+					:voteCount="movie.vote_count"
+				/>
+			</div>
+		</section>
 	</div>
 </template>
 
