@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
  * @property string $poster_path
  * @property int $popularity
  * @property int $vote_average
+ * @property int $vote_count
  * @property Carbon $release_date
  *
  * @mixin Eloquent

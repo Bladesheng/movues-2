@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
-import NavLink from '@/Shared/NavLink.vue';
+import NavLink from '@/components/NavLink.vue';
 
 const page = usePage<{
 	// auth: { user: { username: string } };

@@ -20,7 +20,7 @@ class MovieController extends Controller
 		//		})
 		//		->get();
 
-		$movies = Movie::all();
+		$movies = Movie::query()->orderBy('release_date')->get();
 
 		return Inertia::render('Movies/Index', [
 			'movies' => $movies,

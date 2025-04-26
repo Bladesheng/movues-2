@@ -32,6 +32,7 @@ Schedule::call(function () {
 			$movie->poster_path = $result['poster_path'];
 			$movie->popularity = round($result['popularity']);
 			$movie->vote_average = round($result['vote_average'] * 10);
+			$movie->vote_count = $result['vote_count'];
 			$movie->release_date = $result['release_date'];
 			$movie->movieGenres()->sync($result['genre_ids']);
 			$movie->save();

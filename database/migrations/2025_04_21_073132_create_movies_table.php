@@ -16,6 +16,7 @@ return new class extends Migration {
 			$table->string('poster_path');
 			$table->integer('popularity');
 			$table->integer('vote_average');
+			$table->integer('vote_count');
 			$table->date('release_date');
 			$table->timestamps();
 		});
