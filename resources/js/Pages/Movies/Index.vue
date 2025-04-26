@@ -3,6 +3,7 @@ import { router } from '@inertiajs/vue3';
 import PosterCard from '@/components/PosterCard.vue';
 import { ref, watch } from 'vue';
 import { route } from 'ziggy-js';
+import ScaleTransitionGroup from '@/components/ScaleTransitionGroup.vue';
 
 type IMovie = {
 	id: number;
@@ -144,16 +145,18 @@ function loadMore() {
 
 		<section class="flex grow flex-col gap-6">
 			<div class="grid gap-4">
-				<div v-for="movie in movies.data" :key="movie.id">
-					<PosterCard
-						:name="movie.name"
-						:releaseDate="new Date(movie.release_date)"
-						:posterPath="movie.poster_path"
-						:popularity="movie.popularity"
-						:voteAverage="movie.vote_average"
-						:voteCount="movie.vote_count"
-					/>
-				</div>
+				<ScaleTransitionGroup>
+					<div v-for="movie in movies.data" :key="movie.id">
+						<PosterCard
+							:name="movie.name"
+							:releaseDate="new Date(movie.release_date)"
+							:posterPath="movie.poster_path"
+							:popularity="movie.popularity"
+							:voteAverage="movie.vote_average"
+							:voteCount="movie.vote_count"
+						/>
+					</div>
+				</ScaleTransitionGroup>
 			</div>
 
 			<button
