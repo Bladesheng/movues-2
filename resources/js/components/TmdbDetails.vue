@@ -8,6 +8,7 @@ import ImdbLogo from '@/components/svg/ImdbLogo.vue';
 import YoutubeTrailers from '@/components/YoutubeTrailers.vue';
 import ImagesGallery from '@/components/ImagesGallery.vue';
 import type { Cast, Crew, Genre, Images, Keyword, Network, Video } from 'tmdb-ts';
+import Card from '@/components/Card.vue';
 
 const {
 	cast,
@@ -51,8 +52,8 @@ const ratingRounded = computed(() => Math.round(rating * 10));
 <template>
 	<div class="flex min-w-0 flex-col gap-4 sm:flex-row">
 		<section class="flex min-w-0 flex-col gap-4">
-			<section class="card bg-base-200 shadow">
-				<div class="card-body flex flex-row gap-4">
+			<Card>
+				<div class="flex flex-row gap-4">
 					<img
 						:src="`https://image.tmdb.org/t/p/w400${posterPath}`"
 						alt="poster"
@@ -95,7 +96,7 @@ const ratingRounded = computed(() => Math.round(rating * 10));
 						</div>
 					</div>
 				</div>
-			</section>
+			</Card>
 
 			<CastList :actors="cast" />
 
@@ -105,61 +106,57 @@ const ratingRounded = computed(() => Math.round(rating * 10));
 		</section>
 
 		<section class="flex shrink-0 flex-col items-stretch gap-4 sm:w-1/4 xl:w-1/5">
-			<section class="card bg-base-200 shadow">
-				<div class="card-body">
-					<SectionHeading class="card-title">Rating</SectionHeading>
+			<Card bodyClass="gap-8">
+				<template #title>
+					<SectionHeading>Rating</SectionHeading>
+				</template>
 
-					<div class="flex flex-col gap-8">
-						<div class="flex items-center gap-4">
-							<a :href="tmdbLink" target="_blank">
-								<TmdbLogoPrimaryShort class="h-12" />
-							</a>
-
-							<strong class="text-4xl text-nowrap" title="TMDB rating">{{ ratingRounded }}%</strong>
-						</div>
-
-						<a
-							v-if="imdbId !== null"
-							:href="`https://www.imdb.com/title/${imdbId}`"
-							target="_blank"
-						>
-							<ImdbLogo class="h-12" />
+				<div class="flex flex-col gap-6">
+					<div class="flex items-center gap-4">
+						<a :href="tmdbLink" target="_blank">
+							<TmdbLogoPrimaryShort class="h-12" />
 						</a>
 
-						<slot name="csfdCard" />
+						<strong class="text-4xl text-nowrap" title="TMDB rating">{{ ratingRounded }}%</strong>
 					</div>
+
+					<a v-if="imdbId !== null" :href="`https://www.imdb.com/title/${imdbId}`" target="_blank">
+						<ImdbLogo class="h-12" />
+					</a>
+
+					<slot name="csfdCard" />
 				</div>
-			</section>
+			</Card>
 
-			<section v-if="keywords.length > 0" class="card bg-base-200 shadow">
-				<div class="card-body">
-					<SectionHeading class="card-title">Keywords</SectionHeading>
+			<Card bodyClass="gap-6">
+				<template #title>
+					<SectionHeading>Keywords</SectionHeading>
+				</template>
 
-					<div class="flex flex-wrap gap-2">
-						<span v-for="keyword in keywords" class="badge badge-secondary">
-							{{ keyword.name }}
-						</span>
-					</div>
+				<div class="flex flex-wrap gap-2">
+					<span v-for="keyword in keywords" class="badge badge-secondary">
+						{{ keyword.name }}
+					</span>
 				</div>
-			</section>
+			</Card>
 
-			<section v-if="networks !== undefined" class="card bg-base-200 shadow">
-				<div class="card-body">
-					<SectionHeading class="card-title">
+			<Card v-if="networks !== undefined" bodyClass="gap-6">
+				<template #title>
+					<SectionHeading>
 						Network
 						<template v-if="networks.length > 1">s</template>
 					</SectionHeading>
+				</template>
 
-					<div class="flex flex-col items-center gap-2">
-						<img
-							v-for="network in networks"
-							:src="`https://image.tmdb.org/t/p/w200${network.logo_path}`"
-							:alt="network.name"
-							:title="network.name"
-						/>
-					</div>
+				<div class="flex flex-col items-center gap-2">
+					<img
+						v-for="network in networks"
+						:src="`https://image.tmdb.org/t/p/w200${network.logo_path}`"
+						:alt="network.name"
+						:title="network.name"
+					/>
 				</div>
-			</section>
+			</Card>
 		</section>
 	</div>
 </template>

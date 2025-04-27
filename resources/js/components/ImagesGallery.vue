@@ -1,31 +1,44 @@
 <script setup lang="ts">
 import SectionHeading from '@/components/SectionHeading.vue';
 import { Images } from 'tmdb-ts';
+import Card from '@/components/Card.vue';
+import { computed } from 'vue';
 
 const { images } = defineProps<{
 	images: Omit<Images, 'id'>;
 }>();
+
+const imagesCount = computed(() =>
+	Object.values(images).reduce((total, imagesGroup) => {
+		if (imagesGroup.length) {
+			return total + imagesGroup.length;
+		}
+		return total;
+	}, 0)
+);
 </script>
 
 <template>
-	<section class="card bg-base-200 shadow">
-		<div class="card-body gap-6">
-			<div class="card-title flex justify-between">
+	<Card titleClass="justify-between" bodyClass="gap-6">
+		<template #title>
+			<div class="flex items-center gap-2">
 				<SectionHeading>Images</SectionHeading>
-				<button class="btn btn-outline btn-secondary">More</button>
+				<small class="text-gray-400">({{ imagesCount }})</small>
 			</div>
 
-			<div class="flex flex-col items-start gap-4">
-				<img
-					v-for="img in images.backdrops.slice(0, 3)"
-					:src="`https://image.tmdb.org/t/p/w1280${img.file_path}`"
-					alt=""
-					loading="lazy"
-					class="overflow-hidden rounded"
-				/>
-			</div>
+			<button class="btn btn-outline btn-secondary">More</button>
+		</template>
+
+		<div class="flex flex-col items-start gap-4">
+			<img
+				v-for="img in images.backdrops.slice(0, 3)"
+				:src="`https://image.tmdb.org/t/p/w1280${img.file_path}`"
+				alt=""
+				loading="lazy"
+				class="overflow-hidden rounded"
+			/>
 		</div>
-	</section>
+	</Card>
 </template>
 
 <style scoped></style>

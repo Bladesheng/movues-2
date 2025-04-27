@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import YoutubeIframe from '@/components/YoutubeIframe.vue';
 import SectionHeading from '@/components/SectionHeading.vue';
 import { Video } from 'tmdb-ts';
+import Card from '@/components/Card.vue';
 
 const { videos } = defineProps<{
 	videos: Video[];
@@ -91,28 +92,30 @@ function startDrag(e: MouseEvent) {
 </script>
 
 <template>
-	<section v-if="videos.length > 0" class="card bg-base-200 shadow">
-		<div class="card-body flex flex-col gap-4">
-			<div class="card-title flex justify-between">
+	<Card v-if="videos.length > 0" titleClass="justify-between" bodyClass="gap-6">
+		<template #title>
+			<div class="flex items-center gap-2">
 				<SectionHeading>Videos</SectionHeading>
-				<button class="btn btn-outline btn-secondary">More</button>
+				<small class="text-gray-400">({{ videos.length }})</small>
 			</div>
 
-			<div class="relevantVideoContainer">
-				<YoutubeIframe :videoKey="mostRelevantVideo.key" />
+			<button class="btn btn-outline btn-secondary">More</button>
+		</template>
 
-				<div class="flex">
-					<button
-						@mousedown="startDrag"
-						class="btn btn-ghost btn-sm mt-1 ml-auto cursor-nwse-resize"
-						title="drag to resize"
-					>
-						<span class="icon-[heroicons--arrow-down-right]"></span>
-					</button>
-				</div>
+		<div class="relevantVideoContainer">
+			<YoutubeIframe :videoKey="mostRelevantVideo.key" />
+
+			<div class="flex">
+				<button
+					@mousedown="startDrag"
+					class="btn btn-ghost btn-sm mt-1 ml-auto cursor-nwse-resize"
+					title="drag to resize"
+				>
+					<span class="icon-[heroicons--arrow-down-right]"></span>
+				</button>
 			</div>
 		</div>
-	</section>
+	</Card>
 </template>
 
 <style scoped>
