@@ -2,6 +2,7 @@
 import { ITmdbMovie } from '@/types/tmdbMovie.ts';
 import { ICsfdMovie } from '@/types/csfdMovie.ts';
 import { Deferred } from '@inertiajs/vue3';
+import CsfdDetails from '@/components/CsfdDetails.vue';
 
 const { tmdb, csfd } = defineProps<{
 	tmdb: ITmdbMovie;
@@ -16,11 +17,11 @@ const { tmdb, csfd } = defineProps<{
 
 	<Deferred data="csfd">
 		<template #fallback>
-			<div>Loading CSFD details...</div>
+			<div class="skeleton h-[285px] w-96"></div>
 		</template>
 
 		<div v-if="csfd">
-			{{ csfd.title }}
+			<CsfdDetails :movie="csfd" />
 		</div>
 	</Deferred>
 
