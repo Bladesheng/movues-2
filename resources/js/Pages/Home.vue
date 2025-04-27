@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { route } from 'ziggy-js';
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>

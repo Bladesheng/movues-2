@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ITmdbMovie } from '@/types/tmdbMovie.ts';
 import { ICsfdMovie } from '@/types/csfdMovie.ts';
-import { Deferred } from '@inertiajs/vue3';
+import { Deferred, Head } from '@inertiajs/vue3';
 import CsfdDetails from '@/components/CsfdDetails.vue';
 
 const { tmdb, csfd } = defineProps<{
@@ -11,6 +11,8 @@ const { tmdb, csfd } = defineProps<{
 </script>
 
 <template>
+	<Head :title="tmdb.title" />
+
 	<div>
 		{{ tmdb.title }}
 	</div>

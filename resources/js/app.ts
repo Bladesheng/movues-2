@@ -20,5 +20,5 @@ createInertiaApp({
 			.mount(el);
 	},
 
-	title: (title) => `${title} | Inertia Demo`,
+	title: (title) => (title?.length ? `${title} | MoVues 2` : 'MoVues 2'),
 });

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import PosterCard from '@/components/PosterCard.vue';
 import { ref, watch } from 'vue';
 import { route } from 'ziggy-js';
 import ScaleTransitionGroup from '@/components/ScaleTransitionGroup.vue';
 import { debounce } from 'throttle-debounce';
 import SliderWithInput from '@/components/SliderWithInput.vue';
+
+defineOptions({ inheritAttrs: false });
 
 type IMovie = {
 	id: number;
@@ -88,6 +90,8 @@ watch(filter, refreshFilters, { deep: true });
 </script>
 
 <template>
+	<Head title="Movies" />
+
 	<div class="flex gap-4">
 		<section class="flex min-w-64 flex-col gap-4">
 			<strong>Filters</strong>
