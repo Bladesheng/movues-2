@@ -30,16 +30,18 @@ class Csfd
 
 		if ($response->status() === 404) {
 			// try again, this time without the year
-			// - movies sometimes get delayed => csfd and tmdb can be out of sync
+			// - movies sometimes get delayed => csfd and tmdb release years can be out of sync
 			$response = Http::get("https://csfd.worker.bladesheng.com/detail/{$mediaType}", [
 				'name' => $name,
-			])->throw();
+			]);
 		}
 
-		$details = $response->json();
-
-		Cache::put($cacheKey, $details, now()->addDay());
-
-		return $response->json();
+		if ($response->successful()) {
+			$details = $response->json();
+			Cache::put($cacheKey, $details, now()->addDay());
+			return $details;
+		} else {
+			return null;
+		}
 	}
 }

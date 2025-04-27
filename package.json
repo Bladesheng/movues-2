@@ -24,6 +24,7 @@
 		"prettier-plugin-tailwindcss": "^0.6.11",
 		"tailwindcss": "^4.1.4",
 		"throttle-debounce": "^5.0.2",
+		"tmdb-ts": "^2.0.1",
 		"typescript": "^5.8.3",
 		"vite": "^6.3.3",
 		"vite-plugin-vue-devtools": "^7.7.5",

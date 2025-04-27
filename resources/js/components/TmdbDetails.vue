@@ -1,0 +1,167 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { getDaysLeft, getFullDateFormatted } from '@/utils/date';
+import SectionHeading from '@/components/SectionHeading.vue';
+import CastList from '@/components/CastList.vue';
+import TmdbLogoPrimaryShort from '@/components/svg/TmdbLogoPrimaryShort.vue';
+import ImdbLogo from '@/components/svg/ImdbLogo.vue';
+import YoutubeTrailers from '@/components/YoutubeTrailers.vue';
+import ImagesGallery from '@/components/ImagesGallery.vue';
+import type { Cast, Crew, Genre, Images, Keyword, Network, Video } from 'tmdb-ts';
+
+const {
+	cast,
+	createdBy,
+	genres,
+	images,
+	imdbId,
+	keywords,
+	name,
+	networks,
+	overview,
+	posterPath,
+	rating,
+	releaseDate,
+	runtimeText,
+	tagline,
+	tmdbLink,
+	videos,
+} = defineProps<{
+	cast: Cast[];
+	createdBy?: Crew;
+	genres: Genre[];
+	images: Omit<Images, 'id'>;
+	imdbId: string | null;
+	keywords: Keyword[];
+	name: string;
+	networks?: Network[];
+	overview: string;
+	posterPath: string | null | undefined;
+	rating: number;
+	releaseDate: Date;
+	runtimeText?: string;
+	tagline: string;
+	tmdbLink: string;
+	videos: Video[];
+}>();
+
+const ratingRounded = computed(() => Math.round(rating * 10));
+</script>
+
+<template>
+	<div class="flex min-w-0 flex-col gap-4 sm:flex-row">
+		<section class="flex min-w-0 flex-col gap-4">
+			<section class="card bg-base-200 shadow">
+				<div class="card-body flex flex-row gap-4">
+					<img
+						:src="`https://image.tmdb.org/t/p/w400${posterPath}`"
+						alt="poster"
+						class="max-w-52 self-start overflow-hidden rounded"
+					/>
+
+					<div class="flex flex-col gap-2">
+						<SectionHeading class="text-4xl">
+							{{ name }}
+						</SectionHeading>
+
+						<div class="flex gap-2">
+							<span v-for="genre in genres" title="Genre" class="badge badge-primary">
+								{{ genre.name }}
+							</span>
+						</div>
+
+						<div title="Release date">
+							{{ getFullDateFormatted(releaseDate) }} ({{ getDaysLeft(releaseDate) }})
+						</div>
+
+						<div v-if="runtimeText === undefined" class="skeleton h-6 w-40"></div>
+						<div v-else-if="runtimeText.length > 0">
+							{{ runtimeText }}
+						</div>
+
+						<div v-if="createdBy !== undefined">
+							<strong>{{ createdBy.department }}: </strong>
+							<span>{{ createdBy.name }}</span>
+						</div>
+
+						<div class="flex flex-col gap-0.5">
+							<strong class="block">Overview</strong>
+							<em class="block text-gray-500">
+								{{ tagline }}
+							</em>
+							<p class="max-w-[670px]">
+								{{ overview }}
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<CastList :actors="cast" />
+
+			<YoutubeTrailers :videos="videos" />
+
+			<ImagesGallery :images="images" />
+		</section>
+
+		<section class="flex shrink-0 flex-col items-stretch gap-4 sm:w-1/4 xl:w-1/5">
+			<section class="card bg-base-200 shadow">
+				<div class="card-body">
+					<SectionHeading class="card-title">Rating</SectionHeading>
+
+					<div class="flex flex-col gap-8">
+						<div class="flex items-center gap-4">
+							<a :href="tmdbLink" target="_blank">
+								<TmdbLogoPrimaryShort class="h-12" />
+							</a>
+
+							<strong class="text-4xl text-nowrap" title="TMDB rating">{{ ratingRounded }}%</strong>
+						</div>
+
+						<a
+							v-if="imdbId !== null"
+							:href="`https://www.imdb.com/title/${imdbId}`"
+							target="_blank"
+						>
+							<ImdbLogo class="h-12" />
+						</a>
+
+						<slot name="csfdCard" />
+					</div>
+				</div>
+			</section>
+
+			<section v-if="keywords.length > 0" class="card bg-base-200 shadow">
+				<div class="card-body">
+					<SectionHeading class="card-title">Keywords</SectionHeading>
+
+					<div class="flex flex-wrap gap-2">
+						<span v-for="keyword in keywords" class="badge badge-secondary">
+							{{ keyword.name }}
+						</span>
+					</div>
+				</div>
+			</section>
+
+			<section v-if="networks !== undefined" class="card bg-base-200 shadow">
+				<div class="card-body">
+					<SectionHeading class="card-title">
+						Network
+						<template v-if="networks.length > 1">s</template>
+					</SectionHeading>
+
+					<div class="flex flex-col items-center gap-2">
+						<img
+							v-for="network in networks"
+							:src="`https://image.tmdb.org/t/p/w200${network.logo_path}`"
+							:alt="network.name"
+							:title="network.name"
+						/>
+					</div>
+				</div>
+			</section>
+		</section>
+	</div>
+</template>
+
+<style scoped></style>

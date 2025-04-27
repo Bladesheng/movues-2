@@ -1,0 +1,57 @@
+<script setup lang="ts">
+import SectionHeading from '@/components/SectionHeading.vue';
+import { Cast } from 'tmdb-ts';
+
+const { actors } = defineProps<{
+	actors: Cast[];
+}>();
+</script>
+
+<template>
+	<section class="card bg-base-200 shadow" v-if="actors.length > 0">
+		<div class="card-body gap-6">
+			<SectionHeading class="card-title">Cast</SectionHeading>
+
+			<ol
+				class="flex gap-2 overflow-x-auto"
+				:class="{
+					dark: true,
+				}"
+			>
+				<template v-for="actor in actors">
+					<li
+						v-if="actor.profile_path !== null"
+						class="max-w-32 flex-shrink-0 overflow-hidden rounded-xl border border-gray-300 sm:max-w-44 dark:border-gray-600"
+					>
+						<img :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`" :alt="actor.name" />
+
+						<div class="p-2 text-center">
+							<div class="font-semibold">
+								{{ actor.name }}
+							</div>
+
+							<div class="mt-0.5 text-sm">
+								{{ actor.character }}
+							</div>
+						</div>
+					</li>
+				</template>
+			</ol>
+		</div>
+	</section>
+</template>
+
+<style scoped>
+ol::-webkit-scrollbar {
+	height: 10px;
+}
+
+ol::-webkit-scrollbar-thumb {
+	border-radius: 9999px;
+	background: #d1d5db;
+}
+
+ol.dark::-webkit-scrollbar-thumb {
+	background: #4b5563;
+}
+</style>
