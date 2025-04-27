@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import PosterCard from '@/components/PosterCard.vue';
 import { ref, watch } from 'vue';
 import { route } from 'ziggy-js';
@@ -145,7 +145,12 @@ watch(filter, refreshFilters, { deep: true });
 		<section class="flex grow flex-col gap-6">
 			<div class="grid gap-4">
 				<ScaleTransitionGroup>
-					<div v-for="movie in movies.data" :key="movie.id">
+					<Link
+						v-for="movie in movies.data"
+						:key="movie.id"
+						:href="route('movies.show', movie.id)"
+						class="visited:text-gray-400 dark:visited:text-gray-600"
+					>
 						<PosterCard
 							:name="movie.name"
 							:releaseDate="new Date(movie.release_date)"
@@ -154,7 +159,7 @@ watch(filter, refreshFilters, { deep: true });
 							:voteAverage="movie.vote_average"
 							:voteCount="movie.vote_count"
 						/>
-					</div>
+					</Link>
 				</ScaleTransitionGroup>
 			</div>
 
