@@ -6,6 +6,8 @@ import { route } from 'ziggy-js';
 import ScaleTransitionGroup from '@/components/ScaleTransitionGroup.vue';
 import { debounce } from 'throttle-debounce';
 import SliderWithInput from '@/components/SliderWithInput.vue';
+import Card from '@/components/Card.vue';
+import SectionHeading from '@/components/SectionHeading.vue';
 
 defineOptions({ inheritAttrs: false });
 
@@ -93,58 +95,62 @@ watch(filter, refreshFilters, { deep: true });
 	<Head title="Movies" />
 
 	<div class="flex gap-4">
-		<section class="flex min-w-64 flex-col gap-4">
-			<strong>Filters</strong>
+		<Card class="self-start" bodyClass="gap-6">
+			<template #title>
+				<SectionHeading>Filters</SectionHeading>
+			</template>
 
-			Sort by
-			<div class="flex items-center gap-2">
-				<input
-					v-model="filter.order"
-					value="release_date"
-					id="order-release_date"
-					type="radio"
-					class="radio"
-				/>
-				<label for="order-release_date" class="">Release date</label>
-			</div>
-			<div class="flex items-center gap-2">
-				<input
-					v-model="filter.order"
-					value="popularity"
-					id="order-popularity"
-					type="radio"
-					class="radio"
-				/>
-				<label for="order-popularity" class="">Popularity</label>
-			</div>
-
-			<SliderWithInput
-				v-model="filter.popularity"
-				id="popularity"
-				label="Minimum popularity"
-				:max="200"
-				step="5"
-			/>
-
-			<SliderWithInput v-model="filter.age" id="age" label="Max. movie age (days)" :max="90" />
-
-			Genres
-			<div class="flex flex-col gap-2">
-				<div v-for="genre in genres" :key="genre.id" class="flex items-center gap-2">
+			<section class="flex min-w-64 flex-col gap-4">
+				Sort by
+				<div class="flex items-center gap-2">
 					<input
-						v-model="filter.genres"
-						:value="genre.id"
-						:id="`genre-${genre.id}`"
-						type="checkbox"
-						class="checkbox"
+						v-model="filter.order"
+						value="release_date"
+						id="order-release_date"
+						type="radio"
+						class="radio"
 					/>
-
-					<label :for="`genre-${genre.id}`">
-						{{ genre.name }}
-					</label>
+					<label for="order-release_date" class="">Release date</label>
 				</div>
-			</div>
-		</section>
+				<div class="flex items-center gap-2">
+					<input
+						v-model="filter.order"
+						value="popularity"
+						id="order-popularity"
+						type="radio"
+						class="radio"
+					/>
+					<label for="order-popularity" class="">Popularity</label>
+				</div>
+
+				<SliderWithInput
+					v-model="filter.popularity"
+					id="popularity"
+					label="Minimum popularity"
+					:max="200"
+					step="5"
+				/>
+
+				<SliderWithInput v-model="filter.age" id="age" label="Max. movie age (days)" :max="90" />
+
+				Genres
+				<div class="flex flex-col gap-2">
+					<div v-for="genre in genres" :key="genre.id" class="flex items-center gap-2">
+						<input
+							v-model="filter.genres"
+							:value="genre.id"
+							:id="`genre-${genre.id}`"
+							type="checkbox"
+							class="checkbox"
+						/>
+
+						<label :for="`genre-${genre.id}`">
+							{{ genre.name }}
+						</label>
+					</div>
+				</div>
+			</section>
+		</Card>
 
 		<section class="flex grow flex-col gap-6">
 			<div class="grid gap-4">
