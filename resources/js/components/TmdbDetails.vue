@@ -124,6 +124,7 @@ watch(activeTab, (activeTab) => {
 					Overview
 				</button>
 				<button
+					v-if="videos.length"
 					role="tab"
 					class="tab"
 					@click="activeTab = 'videos'"
@@ -132,6 +133,7 @@ watch(activeTab, (activeTab) => {
 					Videos ({{ videos.length }})
 				</button>
 				<button
+					v-if="imagesCount"
 					role="tab"
 					class="tab"
 					@click="activeTab = 'images'"
