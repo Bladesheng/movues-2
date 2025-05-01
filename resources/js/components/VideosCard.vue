@@ -9,6 +9,8 @@ const { videos } = defineProps<{
 	videos: Video[];
 }>();
 
+defineEmits(['clickMore']);
+
 const mostRelevantVideo = computed(() => {
 	let mostRelevantVideos = videos.filter((video) => {
 		return video.type === 'Trailer';
@@ -99,7 +101,7 @@ function startDrag(e: MouseEvent) {
 				<small class="text-gray-400">({{ videos.length }})</small>
 			</div>
 
-			<button class="btn btn-outline btn-secondary">More</button>
+			<button class="btn btn-outline btn-secondary" @click="$emit('clickMore')">More</button>
 		</template>
 
 		<div class="relevantVideoContainer">

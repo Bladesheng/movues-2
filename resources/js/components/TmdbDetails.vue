@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { getDaysLeft, getFullDateFormatted } from '@/utils/date';
 import SectionHeading from '@/components/SectionHeading.vue';
 import CastList from '@/components/CastList.vue';
 import TmdbLogoPrimaryShort from '@/components/svg/TmdbLogoPrimaryShort.vue';
 import ImdbLogo from '@/components/svg/ImdbLogo.vue';
-import YoutubeTrailers from '@/components/YoutubeTrailers.vue';
-import ImagesGallery from '@/components/ImagesGallery.vue';
+import VideosCard from '@/components/VideosCard.vue';
+import ImagesCard from '@/components/ImagesCard.vue';
 import type { Cast, Crew, Genre, Images, Keyword, Network, Video } from 'tmdb-ts';
 import Card from '@/components/Card.vue';
+import ImageGallery from '@/components/ImageGallery.vue';
 
 const {
 	cast,
@@ -46,7 +47,19 @@ const {
 	videos: Video[];
 }>();
 
+const activeTab = ref(window.location.hash.replace('#', ''));
+
 const ratingRounded = computed(() => Math.round(rating * 10));
+
+const imagesCount = Object.values(images).reduce((acc, group) => acc + group.length, 0);
+
+watch(activeTab, (activeTab) => {
+	if (activeTab === '') {
+		window.history.pushState(null, '', window.location.pathname);
+	} else {
+		window.history.pushState(null, '', `#${activeTab}`);
+	}
+});
 </script>
 
 <template>
@@ -100,9 +113,41 @@ const ratingRounded = computed(() => Math.round(rating * 10));
 
 			<CastList :actors="cast" />
 
-			<YoutubeTrailers :videos="videos" />
+			<div role="tablist" class="tabs tabs-border">
+				<button
+					role="tab"
+					class="tab"
+					:class="{ 'tab-active': activeTab === '' }"
+					@click="activeTab = ''"
+				>
+					Overview
+				</button>
+				<button
+					role="tab"
+					class="tab"
+					@click="activeTab = 'videos'"
+					:class="{ 'tab-active': activeTab === 'videos' }"
+				>
+					Videos ({{ videos.length }})
+				</button>
+				<button
+					role="tab"
+					class="tab"
+					@click="activeTab = 'images'"
+					:class="{ 'tab-active': activeTab === 'images' }"
+				>
+					Images ({{ imagesCount }})
+				</button>
+			</div>
 
-			<ImagesGallery :images="images" />
+			<template v-if="activeTab === ''">
+				<VideosCard :videos="videos" @clickMore="activeTab = 'videos'" />
+				<ImagesCard :images="images" @clickMore="activeTab = 'images'" />
+			</template>
+			<template v-else-if="activeTab === 'images'">
+				<ImageGallery :images="images" />
+			</template>
+			<template v-else-if="activeTab === 'videos'">videos</template>
 		</section>
 
 		<section class="flex shrink-0 flex-col items-stretch gap-4 sm:w-1/4 xl:w-1/5">

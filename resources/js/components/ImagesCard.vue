@@ -8,6 +8,8 @@ const { images } = defineProps<{
 	images: Omit<Images, 'id'>;
 }>();
 
+defineEmits(['clickMore']);
+
 const imagesCount = computed(() =>
 	Object.values(images).reduce((total, imagesGroup) => {
 		if (imagesGroup.length) {
@@ -26,7 +28,7 @@ const imagesCount = computed(() =>
 				<small class="text-gray-400">({{ imagesCount }})</small>
 			</div>
 
-			<button class="btn btn-outline btn-secondary">More</button>
+			<button class="btn btn-outline btn-secondary" @click="$emit('clickMore')">More</button>
 		</template>
 
 		<div class="flex flex-col items-start gap-4">
