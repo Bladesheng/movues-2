@@ -38,6 +38,7 @@ const { movies, genres, filters } = defineProps<{
 		popularity: number;
 		age: number;
 		order: string;
+		genres: string[];
 	};
 }>();
 
@@ -45,17 +46,17 @@ const filter = ref({
 	popularity: filters.popularity,
 	age: filters.age,
 	order: filters.order,
-	genres: [],
+	genres: filters.genres,
 });
 
-const refreshFilters = debounce(200, (value: any) => {
+const refreshFilters = debounce(200, (value: typeof filter.value) => {
 	router.get(
 		route('movies.index'),
 		{
 			...value,
 		},
 		{
-			only: ['movies'],
+			only: ['movies', 'filters'],
 			preserveState: true,
 			preserveScroll: true,
 		}
@@ -112,7 +113,7 @@ watch(filter, refreshFilters, { deep: true });
 					<div v-for="genre in genres" :key="genre.id" class="flex items-center gap-2">
 						<input
 							v-model="filter.genres"
-							:value="genre.id"
+							:value="genre.id.toString()"
 							:id="`genre-${genre.id}`"
 							type="checkbox"
 							class="checkbox"
