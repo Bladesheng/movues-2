@@ -57,14 +57,16 @@ class MovieController extends Controller
 	 */
 	public function show(Movie $movie): Response
 	{
+		$tmdbDetails = Tmdb::getDetails('movie', $movie->id);
+
 		return Inertia::render('Movies/Show', [
-			'tmdb' => Tmdb::getDetails('movie', $movie->id),
+			'tmdb' => fn() => $tmdbDetails,
 
 			'csfd' => Inertia::defer(
 				fn() => Csfd::getDetails(
 					'movie',
-					Tmdb::getDetails('movie', $movie->id)['title'],
-					Carbon::parse(Tmdb::getDetails('movie', $movie->id)['release_date'])->year
+					$tmdbDetails['title'],
+					Carbon::parse($tmdbDetails['release_date'])->year
 				)
 			),
 		]);
