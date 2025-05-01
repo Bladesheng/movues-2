@@ -41,7 +41,7 @@ class MovieController extends Controller
 			->withQueryString();
 
 		return Inertia::render('Movies/Index', [
-			'movies' => Inertia::deepMerge($movies),
+			'movies' => fn() => $movies,
 			'genres' => fn() => MovieGenre::all(),
 			'filters' => [
 				'popularity' => $popularity,

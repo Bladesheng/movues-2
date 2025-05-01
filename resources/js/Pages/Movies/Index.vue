@@ -3,11 +3,12 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import PosterCard from '@/components/PosterCard.vue';
 import { ref, watch } from 'vue';
 import { route } from 'ziggy-js';
-import ScaleTransitionGroup from '@/components/ScaleTransitionGroup.vue';
 import { debounce } from 'throttle-debounce';
 import SliderWithInput from '@/components/SliderWithInput.vue';
 import Card from '@/components/Card.vue';
 import SectionHeading from '@/components/SectionHeading.vue';
+import Pagination from '@/components/Pagination.vue';
+import { IPagination } from '@/types/types.ts';
 
 defineOptions({ inheritAttrs: false });
 
@@ -24,25 +25,7 @@ type IMovie = {
 };
 
 const { movies, genres, filters } = defineProps<{
-	movies: {
-		current_page: number;
-		data: IMovie[];
-		first_page_url: string;
-		from: number;
-		last_page: number;
-		last_page_url: string;
-		links: {
-			url: string | null;
-			label: string;
-			active: boolean;
-		}[];
-		next_page_url: string | null;
-		path: string;
-		per_page: number;
-		prev_page_url: string | null;
-		to: number;
-		total: number;
-	};
+	movies: IPagination<IMovie[]>;
 
 	genres: {
 		id: number;
@@ -65,16 +48,6 @@ const filter = ref({
 	genres: [],
 });
 
-function loadMore() {
-	router.reload({
-		only: ['movies'],
-		data: {
-			page: movies.current_page + 1,
-		},
-		preserveUrl: true,
-	});
-}
-
 const refreshFilters = debounce(200, (value: any) => {
 	router.get(
 		route('movies.index'),
@@ -82,6 +55,7 @@ const refreshFilters = debounce(200, (value: any) => {
 			...value,
 		},
 		{
+			only: ['movies'],
 			preserveState: true,
 			preserveScroll: true,
 		}
@@ -154,33 +128,24 @@ watch(filter, refreshFilters, { deep: true });
 
 		<section class="flex grow flex-col gap-6">
 			<div class="grid gap-4">
-				<ScaleTransitionGroup>
-					<Link
-						v-for="movie in movies.data"
-						:key="movie.id"
-						:href="route('movies.show', movie.id)"
-						class="visited:text-gray-400 dark:visited:text-gray-600"
-					>
-						<PosterCard
-							:name="movie.name"
-							:releaseDate="new Date(movie.release_date)"
-							:posterPath="movie.poster_path"
-							:popularity="movie.popularity"
-							:voteAverage="movie.vote_average"
-							:voteCount="movie.vote_count"
-						/>
-					</Link>
-				</ScaleTransitionGroup>
+				<Link
+					v-for="movie in movies.data"
+					:key="movie.id"
+					:href="route('movies.show', movie.id)"
+					class="visited:text-gray-400 dark:visited:text-gray-600"
+				>
+					<PosterCard
+						:name="movie.name"
+						:releaseDate="new Date(movie.release_date)"
+						:posterPath="movie.poster_path"
+						:popularity="movie.popularity"
+						:voteAverage="movie.vote_average"
+						:voteCount="movie.vote_count"
+					/>
+				</Link>
 			</div>
 
-			<button
-				v-if="movies.current_page < movies.last_page"
-				class="btn self-center"
-				@click="loadMore()"
-			>
-				Load more
-			</button>
-			<div v-else class="self-center text-gray-400">That's all...</div>
+			<Pagination :pagination="movies" class="self-center" />
 		</section>
 	</div>
 </template>
