@@ -4,8 +4,6 @@ import { Images } from 'tmdb-ts';
 const { images } = defineProps<{
 	images: Omit<Images, 'id'>;
 }>();
-
-console.log(images);
 </script>
 
 <template>
@@ -23,6 +21,7 @@ console.log(images);
 				<div class="flex flex-col gap-4">
 					<img
 						v-for="image in group"
+						:key="image.file_path"
 						loading="lazy"
 						:src="`https://image.tmdb.org/t/p/w1280${image.file_path}`"
 						width="1280"

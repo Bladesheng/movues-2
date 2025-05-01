@@ -34,9 +34,12 @@ const imagesCount = computed(() =>
 		<div class="flex flex-col items-start gap-4">
 			<img
 				v-for="img in images.backdrops.slice(0, 3)"
-				:src="`https://image.tmdb.org/t/p/w1280${img.file_path}`"
-				alt=""
+				:key="img.file_path"
 				loading="lazy"
+				:src="`https://image.tmdb.org/t/p/w1280${img.file_path}`"
+				width="1280"
+				:height="1280 / img.aspect_ratio"
+				alt=""
 				class="overflow-hidden rounded"
 			/>
 		</div>
