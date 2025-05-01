@@ -13,7 +13,7 @@ const { images } = defineProps<{
 				type="radio"
 				class="tab capitalize"
 				name="imageGallery"
-				:aria-label="groupName"
+				:aria-label="`${groupName} (${group.length})`"
 				:checked="i === 0"
 			/>
 
