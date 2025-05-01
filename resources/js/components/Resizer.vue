@@ -62,18 +62,20 @@ function startDrag(e: MouseEvent) {
 			return;
 		}
 
-		container!.style.width = newWidth + 'px';
+		requestAnimationFrame(() => {
+			container!.style.width = newWidth + 'px';
+		});
 	}
 }
 </script>
 
 <template>
 	<div ref="container">
-		<div ref="content">
+		<div ref="content" class="content">
 			<slot />
 		</div>
 
-		<div class="flex">
+		<div class="hidden lg:flex">
 			<button
 				@mousedown="startDrag"
 				class="btn btn-ghost btn-sm mt-1 ml-auto cursor-nwse-resize"
@@ -85,4 +87,8 @@ function startDrag(e: MouseEvent) {
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.content {
+	will-change: width;
+}
+</style>

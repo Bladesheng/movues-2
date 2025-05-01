@@ -50,8 +50,4 @@ const mostRelevantVideo = computed(() => {
 	</Card>
 </template>
 
-<style scoped>
-.relevantVideoContainer {
-	will-change: width;
-}
-</style>
+<style scoped></style>
