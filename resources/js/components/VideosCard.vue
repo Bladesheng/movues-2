@@ -12,15 +12,11 @@ const { videos } = defineProps<{
 defineEmits(['clickMore']);
 
 const mostRelevantVideo = computed(() => {
-	let mostRelevantVideos = videos.filter((video) => {
-		return video.type === 'Trailer';
-	});
+	let mostRelevantVideos = videos.filter((video) => video.type === 'Trailer');
 
 	// no trailers, try teasers
 	if (mostRelevantVideos.length === 0) {
-		mostRelevantVideos = videos.filter((video) => {
-			return video.type === 'Teaser';
-		});
+		mostRelevantVideos = videos.filter((video) => video.type === 'Teaser');
 	}
 
 	// no teasers either, try whatever is left
