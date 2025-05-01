@@ -10,6 +10,7 @@ import ImagesCard from '@/components/ImagesCard.vue';
 import type { Cast, Crew, Genre, Images, Keyword, Network, Video } from 'tmdb-ts';
 import Card from '@/components/Card.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
+import VideoGallery from '@/components/VideoGallery.vue';
 
 const {
 	cast,
@@ -147,7 +148,9 @@ watch(activeTab, (activeTab) => {
 			<template v-else-if="activeTab === 'images'">
 				<ImageGallery :images="images" />
 			</template>
-			<template v-else-if="activeTab === 'videos'">videos</template>
+			<template v-else-if="activeTab === 'videos'">
+				<VideoGallery :videos="videos" />
+			</template>
 		</section>
 
 		<section class="flex shrink-0 flex-col items-stretch gap-4 sm:w-1/4 xl:w-1/5">

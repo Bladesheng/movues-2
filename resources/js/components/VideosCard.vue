@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import YoutubeIframe from '@/components/YoutubeIframe.vue';
 import SectionHeading from '@/components/SectionHeading.vue';
 import { Video } from 'tmdb-ts';
 import Card from '@/components/Card.vue';
-import Resizer from '@/components/Resizer.vue';
+import LazyYoutubeVideo from '@/components/LazyYoutubeVideo.vue';
 
 const { videos } = defineProps<{
 	videos: Video[];
@@ -44,9 +43,7 @@ const mostRelevantVideo = computed(() => {
 			<button class="btn btn-outline btn-secondary" @click="$emit('clickMore')">More</button>
 		</template>
 
-		<Resizer>
-			<YoutubeIframe :videoKey="mostRelevantVideo.key" />
-		</Resizer>
+		<LazyYoutubeVideo :videoKey="mostRelevantVideo.key" />
 	</Card>
 </template>
 
