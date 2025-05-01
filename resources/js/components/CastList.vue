@@ -25,7 +25,13 @@ const { actors } = defineProps<{
 					v-if="actor.profile_path !== null"
 					class="max-w-32 flex-shrink-0 overflow-hidden rounded-xl border border-gray-300 sm:max-w-44 dark:border-gray-600"
 				>
-					<img :src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`" :alt="actor.name" />
+					<img
+						loading="lazy"
+						:src="`https://image.tmdb.org/t/p/w185${actor.profile_path}`"
+						width="185"
+						:height="185 * 1.5"
+						:alt="actor.name"
+					/>
 
 					<div class="p-2 text-center">
 						<div class="font-semibold">
