@@ -2,6 +2,7 @@
 
 use App\Models\Movie;
 use App\Services\Tmdb;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 
@@ -25,6 +26,8 @@ Schedule::call(function () {
 			$movie->vote_average = round($result['vote_average'] * 10);
 			$movie->vote_count = $result['vote_count'];
 			$movie->release_date = $result['release_date'];
+			$movie->save();
+
 			$movie->movieGenres()->sync($result['genre_ids']);
 			$movie->save();
 		}
@@ -36,4 +39,12 @@ Schedule::call(function () {
 		}
 		$page++;
 	}
+})->everyMinute();
+
+Schedule::call(function () {
+	$deleted = Movie::query()
+		->whereDate('release_date', '<', Carbon::now()->subDays(90))
+		->delete();
+
+	Log::info("Deleted {$deleted} movies");
 })->everyMinute();

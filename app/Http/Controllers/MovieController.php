@@ -25,7 +25,7 @@ class MovieController extends Controller
 
 		$movies = Movie::query()
 			->where('popularity', '>=', $popularity)
-			->where('release_date', '>=', Carbon::now()->subDays($age)->toDateString())
+			->whereDate('release_date', '>=', Carbon::now()->subDays($age))
 			->when(!empty($genres), function ($query) use ($genres) {
 				$query->whereHas(
 					'movieGenres',
