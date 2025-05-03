@@ -19,3 +19,29 @@ export type IPagination<T = any[]> = {
 	to: number;
 	total: number;
 };
+
+export type IMedia = {
+	id: number;
+	name: string;
+	poster_path: string;
+	popularity: number;
+	vote_average: number;
+	vote_count: number;
+	release_date: string;
+	created_at: string;
+	updated_at: string;
+};
+
+export type IGenre = {
+	id: number;
+	name: string;
+	created_at: string;
+	updated_at: string;
+};
+
+export type IFilters = {
+	popularity: number;
+	age: number;
+	order: string;
+	genres: string[];
+};
