@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
@@ -35,5 +36,19 @@ class Tmdb
 		Cache::put($cacheKey, $details, now()->addDay());
 
 		return $details;
+	}
+
+	public static function getMovies(int $page)
+	{
+		return Http::withToken(env('TMDB_API_KEY'))
+			->get('https://api.themoviedb.org/3/discover/movie', [
+				'primary_release_date.gte' => Carbon::now()->subDays(90)->toDateString(),
+				'sort_by' => 'primary_release_date.asc',
+				'language' => 'en-US',
+				'with_original_language' => 'en',
+				'page' => $page,
+			])
+			->throw()
+			->json();
 	}
 }

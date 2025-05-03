@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Movie;
-use Illuminate\Support\Facades\Http;
+use App\Services\Tmdb;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schedule;
 
@@ -10,16 +10,7 @@ Schedule::call(function () {
 
 	while ($page < 20) {
 		//	while (true) {
-		$response = Http::withToken(env('TMDB_API_KEY'))->get(
-			'https://api.themoviedb.org/3/discover/movie',
-			[
-				'primary_release_date.gte' => '2025-04-21',
-				'sort_by' => 'primary_release_date.asc',
-				'language' => 'en-US',
-				'with_original_language' => 'en',
-				'page' => $page,
-			]
-		);
+		$response = Tmdb::getMovies($page);
 
 		foreach ($response['results'] as $result) {
 			if (!$result['poster_path'] || $result['popularity'] < 5) {
