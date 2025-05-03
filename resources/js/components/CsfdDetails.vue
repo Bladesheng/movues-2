@@ -42,7 +42,9 @@ const isExpanded = ref(false);
 			{{ movie.descriptions[0].substring(0, isExpanded ? Infinity : MAX_LENGTH) }}
 			<template v-if="!isExpanded && movie.descriptions[0].length > MAX_LENGTH">
 				<span>... </span>
-				<button @click="isExpanded = true">(<span class="textGood">více</span>)</button>
+				<button @click="isExpanded = true" class="cursor-pointer">
+					(<span class="textGood">více</span>)
+				</button>
 			</template>
 		</p>
 	</section>
