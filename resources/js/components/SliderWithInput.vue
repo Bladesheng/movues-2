@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 const currentValue = defineModel<number>({
 	required: true,
 });
@@ -37,19 +39,37 @@ function onWheel(e: WheelEvent) {
 
 	currentValue.value = newValue;
 }
+
+const ariaLabel = computed(() => `${id}-label`);
 </script>
 
 <template>
-	<div @wheel.prevent="onWheel">
-		<label :for="id">
-			{{ label }}
-		</label>
+	<fieldset @wheel.prevent="onWheel">
+		<legend :id="ariaLabel">
+			<label :for="id">
+				{{ label }}
+			</label>
+		</legend>
 
 		<div class="flex items-center gap-4">
-			<input v-model.number="currentValue" :min :max :step type="range" class="range" />
-			<input v-model.number="currentValue" :id type="number" class="input w-14 text-center" />
+			<input
+				v-model.number="currentValue"
+				:min
+				:max
+				:step
+				type="range"
+				class="range"
+				:aria-labelledby="ariaLabel"
+			/>
+			<input
+				v-model.number="currentValue"
+				:id
+				type="number"
+				class="input w-14 text-center"
+				:aria-labelledby="ariaLabel"
+			/>
 		</div>
-	</div>
+	</fieldset>
 </template>
 
 <style scoped></style>
