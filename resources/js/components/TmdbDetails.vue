@@ -70,6 +70,8 @@ watch(activeTab, (activeTab) => {
 				<div class="flex flex-row gap-4">
 					<img
 						:src="`https://image.tmdb.org/t/p/w400${posterPath}`"
+						width="400"
+						height="600"
 						alt="poster"
 						class="max-w-52 self-start overflow-hidden rounded"
 					/>
@@ -201,7 +203,10 @@ watch(activeTab, (activeTab) => {
 				<div class="flex flex-col items-center gap-2">
 					<img
 						v-for="network in networks"
+						loading="lazy"
 						:src="`https://image.tmdb.org/t/p/w200${network.logo_path}`"
+						width="200"
+						height="100"
 						:alt="network.name"
 						:title="network.name"
 					/>

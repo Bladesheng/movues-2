@@ -17,7 +17,10 @@ const { releaseDate, posterPath, popularity, voteAverage, voteCount, name } = de
 	>
 		<div class="relative flex flex-grow overflow-hidden">
 			<img
+				loading="lazy"
 				:src="`https://image.tmdb.org/t/p/w400${posterPath}`"
+				width="400"
+				height="600"
 				alt="show poster"
 				class="object-cover duration-200 group-hover:scale-105"
 			/>
