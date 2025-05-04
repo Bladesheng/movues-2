@@ -7,7 +7,7 @@ const { videoKey } = defineProps<{
 <template>
 	<iframe
 		:src="`https://www.youtube.com/embed/${videoKey}?autoplay=1`"
-		class="aspect-video w-full rounded"
+		class="aspect-video w-full rounded bg-black"
 		title="YouTube video player"
 		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 		referrerpolicy="strict-origin-when-cross-origin"
