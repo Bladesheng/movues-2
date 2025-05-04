@@ -23,7 +23,7 @@ class MovieController extends Controller
 		$order = $request->input('order') ?? 'release_date';
 		$genres = $request->input('genres') ?? [];
 
-		$movies = Movie::query()
+		$movies = fn() => Movie::query()
 			->where('popularity', '>=', $popularity)
 			->whereDate('release_date', '>=', Carbon::now()->subDays($age))
 			->when(!empty($genres), function ($query) use ($genres) {
@@ -40,9 +40,11 @@ class MovieController extends Controller
 			->paginate(20)
 			->withQueryString();
 
+		$allGenres = fn() => Genre::where('movie', true)->orderBy('name')->get();
+
 		return Inertia::render('Movies/Index', [
-			'movies' => fn() => $movies,
-			'genres' => fn() => Genre::where('movie', true)->orderBy('name')->get(),
+			'movies' => $movies,
+			'genres' => $allGenres,
 			'filters' => [
 				'popularity' => $popularity,
 				'age' => $age,
