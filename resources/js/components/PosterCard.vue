@@ -13,13 +13,13 @@ const { releaseDate, posterPath, popularity, voteAverage, voteCount, name } = de
 
 <template>
 	<div
-		class="group relative flex flex-col overflow-hidden rounded border border-gray-300 dark:border-gray-600"
+		class="group relative flex h-full flex-col overflow-hidden rounded border border-gray-300 dark:border-gray-600"
 	>
 		<div class="relative flex flex-grow overflow-hidden">
 			<img
 				:src="`https://image.tmdb.org/t/p/w400${posterPath}`"
 				alt="show poster"
-				class="duration-200 group-hover:scale-105"
+				class="object-cover duration-200 group-hover:scale-105"
 			/>
 
 			<div
