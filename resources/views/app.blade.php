@@ -7,6 +7,7 @@
 			name="description"
 			content="Discover new and upcoming movies and TV shows. Stay up to date with what's airing now and what's coming soon."
 		/>
+		<link rel="icon" href="/favicon.svg" />
 
 		@vite('resources/css/app.css')
 		@vite('resources/js/app.ts')
