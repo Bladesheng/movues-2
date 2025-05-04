@@ -193,7 +193,7 @@ watch(activeTab, (activeTab) => {
 			<Card v-if="networks !== undefined" bodyClass="gap-6">
 				<template #title>
 					<SectionHeading>
-						Network
+						<span>Network</span>
 						<template v-if="networks.length > 1">s</template>
 					</SectionHeading>
 				</template>
