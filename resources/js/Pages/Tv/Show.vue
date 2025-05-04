@@ -4,28 +4,42 @@ import { Deferred, Head } from '@inertiajs/vue3';
 import CsfdDetails from '@/components/CsfdDetails.vue';
 import { computed } from 'vue';
 import TmdbDetails from '@/components/TmdbDetails.vue';
-import { AppendToResponse, MovieDetails } from 'tmdb-ts';
+import { AppendToResponse, TvShowDetails } from 'tmdb-ts';
 
 defineOptions({ inheritAttrs: false });
 
 const { tmdb, csfd } = defineProps<{
 	tmdb: AppendToResponse<
-		MovieDetails,
+		TvShowDetails,
 		('videos' | 'credits' | 'keywords' | 'images' | 'external_ids')[],
-		'movie'
+		'tvShow'
 	>;
 	csfd?: ICsfdMovie | null;
 }>();
 
 const runtimeText = computed(() => {
-	const hours = Math.floor(tmdb.runtime / 60);
-	const minutes = Math.floor(tmdb.runtime % 60);
-	return `${hours} h ${minutes} min`;
+	if (csfd?.duration === undefined) {
+		// csfd is still loading
+		return undefined;
+	} else if (csfd?.duration === null) {
+		// csfd is loaded but duration is unknown
+		return '';
+	}
+
+	const runtimeTotal = csfd.duration;
+	const episodesCount = tmdb.number_of_episodes;
+
+	const episodeRuntime = Math.round(runtimeTotal / episodesCount);
+
+	const hours = Math.floor(runtimeTotal / 60);
+	const minutes = Math.floor(runtimeTotal % 60);
+
+	return `${hours} h ${minutes} min (${episodesCount} x ${episodeRuntime} min)`;
 });
 </script>
 
 <template>
-	<Head :title="tmdb.title" />
+	<Head :title="tmdb.name" />
 
 	<TmdbDetails
 		:cast="tmdb.credits.cast.slice(0, 10)"
@@ -33,15 +47,16 @@ const runtimeText = computed(() => {
 		:genres="tmdb.genres"
 		:images="tmdb.images"
 		:imdbId="tmdb.external_ids.imdb_id"
-		:keywords="tmdb.keywords.keywords"
-		:name="tmdb.title"
+		:keywords="tmdb.keywords.keywords ?? tmdb.keywords.results"
+		:name="tmdb.name"
+		:networks="tmdb.networks"
 		:overview="tmdb.overview"
 		:posterPath="tmdb.poster_path"
 		:rating="tmdb.vote_average"
-		:releaseDate="new Date(tmdb.release_date)"
+		:releaseDate="new Date(tmdb.first_air_date)"
 		:runtimeText="runtimeText"
 		:tagline="tmdb.tagline"
-		:tmdbLink="`https://www.themoviedb.org/movie/${tmdb.id}`"
+		:tmdbLink="`https://www.themoviedb.org/tv/${tmdb.id}`"
 		:videos="tmdb.videos.results.filter((video) => video.site === 'YouTube')"
 	>
 		<template #csfdCard>

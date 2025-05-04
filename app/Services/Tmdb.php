@@ -51,4 +51,18 @@ class Tmdb
 			->throw()
 			->json();
 	}
+
+	public static function getTvSeries(int $page)
+	{
+		return Http::withToken(env('TMDB_API_KEY'))
+			->get('https://api.themoviedb.org/3/discover/tv', [
+				'first_air_date.gte' => Carbon::now()->subDays(90)->toDateString(),
+				'sort_by' => 'first_air_date.asc',
+				'language' => 'en-US',
+				'with_original_language' => 'en',
+				'page' => $page,
+			])
+			->throw()
+			->json();
+	}
 }
