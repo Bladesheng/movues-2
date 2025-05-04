@@ -28,11 +28,11 @@ Schedule::call(function () {
 			$movie->release_date = $result['release_date'];
 			$movie->save();
 
-			$movie->movieGenres()->sync($result['genre_ids']);
+			$movie->genres()->sync($result['genre_ids']);
 			$movie->save();
 		}
 
-		Log::info("Processed page {$page}/{$response['total_pages']}");
+		Log::info("[Movies import] Processed page {$page}/{$response['total_pages']}");
 
 		if ($page >= $response['total_pages']) {
 			break;
@@ -47,4 +47,4 @@ Schedule::call(function () {
 		->delete();
 
 	Log::info("Deleted {$deleted} movies");
-})->everyMinute();
+})->daily();

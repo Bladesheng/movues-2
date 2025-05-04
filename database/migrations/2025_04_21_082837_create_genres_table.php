@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Movie;
-use App\Models\MovieGenre;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,10 +10,12 @@ return new class extends Migration {
 	 */
 	public function up(): void
 	{
-		Schema::create('movie_movie_genre', function (Blueprint $table) {
+		Schema::create('genres', function (Blueprint $table) {
 			$table->id();
-			$table->foreignIdFor(Movie::class)->constrained('movies')->cascadeOnDelete();
-			$table->foreignIdFor(MovieGenre::class)->constrained('movie_genres')->cascadeOnDelete();
+			$table->string('name');
+			$table->boolean('movie');
+			$table->boolean('tv');
+			$table->timestamps();
 		});
 	}
 
@@ -24,6 +24,6 @@ return new class extends Migration {
 	 */
 	public function down(): void
 	{
-		Schema::dropIfExists('movie_movie_genre');
+		Schema::dropIfExists('genres');
 	}
 };

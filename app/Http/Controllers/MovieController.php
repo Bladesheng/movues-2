@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
 use App\Models\Movie;
-use App\Models\MovieGenre;
 use App\Services\Csfd;
 use App\Services\Tmdb;
 use Illuminate\Http\Request;
@@ -28,9 +28,9 @@ class MovieController extends Controller
 			->whereDate('release_date', '>=', Carbon::now()->subDays($age))
 			->when(!empty($genres), function ($query) use ($genres) {
 				$query->whereHas(
-					'movieGenres',
+					'genres',
 					function ($query) use ($genres) {
-						$query->whereIn('movie_genres.id', $genres);
+						$query->whereIn('genres.id', $genres);
 					},
 					'=',
 					count($genres)
@@ -42,7 +42,7 @@ class MovieController extends Controller
 
 		return Inertia::render('Movies/Index', [
 			'movies' => fn() => $movies,
-			'genres' => fn() => MovieGenre::all(),
+			'genres' => fn() => Genre::where('movie', true)->orderBy('name')->get(),
 			'filters' => [
 				'popularity' => $popularity,
 				'age' => $age,

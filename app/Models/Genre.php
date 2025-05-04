@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @property int $id
  * @property string $name
+ * @property boolean $movie
+ * @property boolean $tv
  *
  * @mixin Eloquent
  */
-class MovieGenre extends Model
+class Genre extends Model
 {
 	public function movies(): BelongsToMany
 	{
