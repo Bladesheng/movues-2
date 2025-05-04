@@ -90,7 +90,7 @@ watch(activeTab, (activeTab) => {
 						</div>
 
 						<div v-if="runtimeText === undefined" class="skeleton h-6 w-40"></div>
-						<div v-else-if="runtimeText.length > 0">
+						<div v-else-if="runtimeText.length > 0" class="h-6">
 							{{ runtimeText }}
 						</div>
 
@@ -178,7 +178,7 @@ watch(activeTab, (activeTab) => {
 				</div>
 			</Card>
 
-			<Card bodyClass="gap-6">
+			<Card v-if="keywords.length" bodyClass="gap-6">
 				<template #title>
 					<SectionHeading>Keywords</SectionHeading>
 				</template>
