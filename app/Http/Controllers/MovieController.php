@@ -37,7 +37,7 @@ class MovieController extends Controller
 				);
 			})
 			->orderBy($order, $order === 'release_date' ? 'asc' : 'desc')
-			->paginate(20)
+			->paginate(65)
 			->withQueryString();
 
 		$allGenres = fn() => Genre::where('movie', true)->orderBy('name')->get();

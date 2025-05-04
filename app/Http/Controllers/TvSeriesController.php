@@ -37,7 +37,7 @@ class TvSeriesController extends Controller
 				);
 			})
 			->orderBy($order, $order === 'release_date' ? 'asc' : 'desc')
-			->paginate(20)
+			->paginate(65)
 			->withQueryString();
 
 		$allGenres = fn() => Genre::where('tv', true)->orderBy('name')->get();
