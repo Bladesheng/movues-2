@@ -48,17 +48,4 @@ const { actors } = defineProps<{
 	</Card>
 </template>
 
-<style scoped>
-ol::-webkit-scrollbar {
-	height: 10px;
-}
-
-ol::-webkit-scrollbar-thumb {
-	border-radius: 9999px;
-	background: #d1d5db;
-}
-
-ol.dark::-webkit-scrollbar-thumb {
-	background: #4b5563;
-}
-</style>
+<style scoped></style>

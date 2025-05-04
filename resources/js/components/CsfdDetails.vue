@@ -13,7 +13,7 @@ const isExpanded = ref(false);
 </script>
 
 <template>
-	<section class="csfdDetails" :class="{ dark: true }">
+	<section class="csfdDetails">
 		<div
 			class="grid grid-cols-3 items-center justify-items-center gap-4 rounded text-nowrap text-white"
 			:class="{
@@ -58,7 +58,7 @@ const isExpanded = ref(false);
 	--csfd-unknown: #a4a4a4;
 }
 
-.csfdDetails.dark {
+:global([data-theme='dark'] .csfdDetails) {
 	--csfd-good: #971311;
 	--csfd-bad: #494949;
 	--csfd-unknown: #000;
