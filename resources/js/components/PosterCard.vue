@@ -18,7 +18,7 @@ const { releaseDate, posterPath, popularity, voteAverage, voteCount, name } = de
 		<div class="relative flex flex-grow overflow-hidden">
 			<img
 				loading="lazy"
-				:src="`https://image.tmdb.org/t/p/w400${posterPath}`"
+				:src="`https://image.tmdb.org/t/p/w200${posterPath}`"
 				width="400"
 				height="600"
 				alt="show poster"
