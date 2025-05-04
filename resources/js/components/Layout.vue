@@ -13,7 +13,6 @@ const page = usePage<{
 		<div class="text-xl font-bold text-nowrap">MoVues 2</div>
 
 		<nav class="navbar flex gap-4">
-			<NavLink :href="route('home')" :active="page.component === 'Home'">Home</NavLink>
 			<NavLink :href="route('movies.index')" :active="page.component.startsWith('Movies')">
 				Movies
 			</NavLink>
