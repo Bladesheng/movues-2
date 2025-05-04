@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Schedule;
 Schedule::call(function () {
 	$page = 1;
 
-	while ($page < 20) {
-		//	while (true) {
+	while (true) {
+		//	while ($page < 20) {
 		$response = Tmdb::getMovies($page);
 
 		foreach ($response['results'] as $result) {
@@ -40,13 +40,13 @@ Schedule::call(function () {
 		}
 		$page++;
 	}
-})->everyMinute();
+})->daily();
 
 Schedule::call(function () {
 	$page = 1;
 
-	while ($page < 20) {
-		//	while (true) {
+	while (true) {
+		//	while ($page < 20) {
 		$response = Tmdb::getTvSeries($page);
 
 		foreach ($response['results'] as $result) {
@@ -75,7 +75,7 @@ Schedule::call(function () {
 		}
 		$page++;
 	}
-})->everyMinute();
+})->daily();
 
 Schedule::call(function () {
 	$deleted = Movie::query()
