@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getDaysLeft, getFullDateFormatted } from '@/utils/date';
+import { srcset } from '@/utils/imagesSizes.ts';
 
 const { releaseDate, posterPath, popularity, voteAverage, voteCount, name } = defineProps<{
 	releaseDate: Date;
@@ -18,11 +19,17 @@ const { releaseDate, posterPath, popularity, voteAverage, voteCount, name } = de
 		<div class="relative flex flex-grow overflow-hidden">
 			<img
 				loading="lazy"
-				:src="`https://image.tmdb.org/t/p/w200${posterPath}`"
+				:src="`https://image.tmdb.org/t/p/w342${posterPath}`"
 				width="400"
 				height="600"
 				alt="show poster"
 				class="object-cover duration-200 group-hover:scale-105"
+				:srcset="srcset.posters(posterPath)"
+				sizes="
+				    (max-width: 370px) 300px,
+				    (max-width: 1180px) 200px,
+				    185px
+                "
 			/>
 
 			<div

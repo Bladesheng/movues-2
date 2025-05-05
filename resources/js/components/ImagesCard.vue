@@ -3,6 +3,7 @@ import SectionHeading from '@/components/SectionHeading.vue';
 import { Image, Images } from 'tmdb-ts';
 import Card from '@/components/Card.vue';
 import { computed } from 'vue';
+import { srcset } from '@/utils/imagesSizes.ts';
 
 const { images } = defineProps<{
 	images: Omit<Images, 'id'>;
@@ -55,6 +56,12 @@ const availableImages = computed<Image[]>(() => {
 				:height="1280 / image.aspect_ratio"
 				alt=""
 				class="overflow-hidden rounded"
+				:srcset="srcset.backdrops(image.file_path)"
+				sizes="
+				    (max-width: 380px) 300px,
+				    (max-width: 1160px) 780px,
+				    1280px
+                "
 			/>
 		</div>
 	</Card>

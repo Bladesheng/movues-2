@@ -11,6 +11,7 @@ import type { Cast, Crew, Genre, Images, Keyword, Network, Video } from 'tmdb-ts
 import Card from '@/components/Card.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import VideoGallery from '@/components/VideoGallery.vue';
+import { srcset } from '@/utils/imagesSizes.ts';
 
 const {
 	cast,
@@ -69,11 +70,19 @@ watch(activeTab, (activeTab) => {
 			<Card>
 				<div class="flex flex-row gap-4">
 					<img
-						:src="`https://image.tmdb.org/t/p/w400${posterPath}`"
+						v-if="posterPath"
+						:src="`https://image.tmdb.org/t/p/w342${posterPath}`"
 						width="400"
 						height="600"
 						alt="poster"
 						class="max-w-52 self-start overflow-hidden rounded"
+						:srcset="srcset.posters(posterPath)"
+						sizes="
+						    (max-width: 400px) 92px,
+						    (max-width: 500px) 154px,
+						    (max-width: 800px) 185px,
+						    200px
+                        "
 					/>
 
 					<div class="flex flex-col gap-2">

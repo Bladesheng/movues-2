@@ -22,6 +22,18 @@ const isOpen = ref(false);
 				height="720"
 				alt="video thumbnail"
 				class="w-full cursor-pointer rounded"
+				:srcset="`
+                    https://img.youtube.com/vi_webp/${videoKey}/mqdefault.webp 320w,
+                    https://img.youtube.com/vi_webp/${videoKey}/hqdefault.webp 480w,
+                    https://img.youtube.com/vi_webp/${videoKey}/sddefault.webp 640w,
+                    https://img.youtube.com/vi_webp/${videoKey}/maxresdefault.webp 1280w
+				`"
+				sizes="
+				    (max-width: 400px) 320px,
+                    (max-width: 560px) 480px,
+                    (max-width: 970px) 640px,
+                    1280px
+                "
 			/>
 
 			<span class="flex h-9 items-center justify-center">
