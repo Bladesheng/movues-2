@@ -65,17 +65,17 @@ watch(activeTab, (activeTab) => {
 </script>
 
 <template>
-	<div class="flex min-w-0 flex-col gap-4 sm:flex-row">
+	<div class="flex min-w-0 flex-col gap-4 md:flex-row">
 		<section class="flex min-w-0 flex-col gap-4">
-			<Card>
-				<div class="flex flex-row gap-4">
+			<Card bodyClass="@container">
+				<div class="grid grid-cols-[auto_auto] gap-4 @2xl:grid-cols-[auto_1fr]">
 					<img
 						v-if="posterPath"
 						:src="`https://image.tmdb.org/t/p/w342${posterPath}`"
 						width="400"
 						height="600"
 						alt="poster"
-						class="max-w-52 self-start overflow-hidden rounded"
+						class="w-auto self-start overflow-hidden rounded @2xl:row-span-2"
 						:srcset="srcset.posters(posterPath)"
 						sizes="
 						    (max-width: 400px) 92px,
@@ -90,7 +90,7 @@ watch(activeTab, (activeTab) => {
 							{{ name }}
 						</SectionHeading>
 
-						<div class="flex gap-2">
+						<div class="flex flex-wrap gap-2">
 							<span v-for="genre in genres" title="Genre" class="badge badge-primary">
 								{{ genre.name }}
 							</span>
@@ -109,16 +109,16 @@ watch(activeTab, (activeTab) => {
 							<strong>{{ createdBy.department }}: </strong>
 							<span>{{ createdBy.name }}</span>
 						</div>
+					</div>
 
-						<div class="flex flex-col gap-0.5">
-							<strong class="block">Overview</strong>
-							<em class="block text-gray-500">
-								{{ tagline }}
-							</em>
-							<p class="max-w-[670px]">
-								{{ overview }}
-							</p>
-						</div>
+					<div class="col-span-2 flex flex-col gap-0.5 @2xl:col-start-2">
+						<strong class="block">Overview</strong>
+						<em class="block text-gray-500">
+							{{ tagline }}
+						</em>
+						<p class="max-w-[670px]">
+							{{ overview }}
+						</p>
 					</div>
 				</div>
 			</Card>
@@ -166,7 +166,7 @@ watch(activeTab, (activeTab) => {
 			</template>
 		</section>
 
-		<section class="flex shrink-0 flex-col items-stretch gap-4 sm:w-1/4 xl:w-1/5">
+		<section class="flex shrink-0 flex-col items-stretch gap-4 md:w-1/3 xl:w-1/5">
 			<Card bodyClass="gap-8">
 				<template #title>
 					<SectionHeading>Rating</SectionHeading>
