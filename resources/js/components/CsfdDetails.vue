@@ -23,7 +23,7 @@ const isExpanded = ref(false);
 				colorUnknown: movie.colorRating === 'unknown',
 			}"
 		>
-			<a :href="movie.url" target="_blank">
+			<a :href="movie.url" target="_blank" title="csfd">
 				<CsfdIcon class="h-16 w-16" src="/csfdLogo.svg" alt="csfd logo" />
 			</a>
 

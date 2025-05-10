@@ -49,6 +49,7 @@ watch(filter, refreshFilters, { deep: true });
 		<button
 			class="btn btn-lg btn-circle fixed right-2 bottom-2 z-1 lg:hidden"
 			onclick="my_modal_1.showModal()"
+			aria-label="filters"
 		>
 			<span class="icon-[heroicons--funnel]"></span>
 		</button>

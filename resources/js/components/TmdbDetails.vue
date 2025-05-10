@@ -176,14 +176,19 @@ watch(activeTab, (activeTab) => {
 
 				<div class="flex flex-col gap-6">
 					<div class="flex items-center gap-4">
-						<a :href="tmdbLink" target="_blank">
+						<a :href="tmdbLink" target="_blank" title="tmdb">
 							<TmdbLogoPrimaryShort class="h-12" />
 						</a>
 
 						<strong class="text-4xl text-nowrap" title="TMDB rating">{{ ratingRounded }}%</strong>
 					</div>
 
-					<a v-if="imdbId !== null" :href="`https://www.imdb.com/title/${imdbId}`" target="_blank">
+					<a
+						v-if="imdbId !== null"
+						:href="`https://www.imdb.com/title/${imdbId}`"
+						target="_blank"
+						title="imdb"
+					>
 						<ImdbLogo class="h-12" />
 					</a>
 

@@ -10,8 +10,8 @@ const isDark = useDark({
 </script>
 
 <template>
-	<label class="swap swap-rotate text-2xl">
-		<input v-model="isDark" type="checkbox" />
+	<label class="swap swap-rotate text-2xl" for="themeSwap">
+		<input v-model="isDark" type="checkbox" id="themeSwap" aria-label="Toggle dark mode" />
 
 		<span class="swap-on icon-[heroicons--moon]"></span>
 		<span class="swap-off icon-[heroicons--sun]"></span>

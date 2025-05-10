@@ -32,6 +32,7 @@ const page = usePage();
 					:href="route('settings')"
 					:active="page.component.startsWith('Settings')"
 					class="btn-circle"
+					aria-label="settings"
 				>
 					<span class="icon-[heroicons--cog-6-tooth]"></span>
 				</NavLink>
