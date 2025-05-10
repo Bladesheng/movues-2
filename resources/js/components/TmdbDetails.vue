@@ -12,6 +12,7 @@ import Card from '@/components/Card.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import VideoGallery from '@/components/VideoGallery.vue';
 import { srcset } from '@/utils/imagesSizes.ts';
+import { locale } from '@/utils/locale.ts';
 
 const {
 	cast,
@@ -97,7 +98,8 @@ watch(activeTab, (activeTab) => {
 						</div>
 
 						<div title="Release date">
-							{{ getFullDateFormatted(releaseDate) }} ({{ getDaysLeft(releaseDate) }})
+							{{ getFullDateFormatted(releaseDate, locale) }}
+							({{ getDaysLeft(releaseDate) }})
 						</div>
 
 						<div v-if="runtimeText === undefined" class="skeleton h-6 w-40"></div>

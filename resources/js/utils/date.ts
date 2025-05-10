@@ -1,8 +1,4 @@
-export function getFullDateFormatted(date: Date) {
-	// @TODO add locale override to settings
-	// const locale = navigator.language;
-	const locale = 'cs-CZ';
-
+export function getFullDateFormatted(date: Date, locale: string) {
 	return date.toLocaleDateString(locale, {
 		weekday: 'long',
 		day: 'numeric',

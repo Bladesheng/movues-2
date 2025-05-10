@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getDaysLeft, getFullDateFormatted } from '@/utils/date';
 import { srcset } from '@/utils/imagesSizes.ts';
+import { locale } from '@/utils/locale.ts';
 
 const { releaseDate, posterPath, popularity, voteAverage, voteCount, name } = defineProps<{
 	releaseDate: Date;
@@ -56,7 +57,7 @@ const { releaseDate, posterPath, popularity, voteAverage, voteCount, name } = de
 			</span>
 
 			<span class="hidden text-sm group-hover:inline">
-				{{ getFullDateFormatted(releaseDate) }}
+				{{ getFullDateFormatted(releaseDate, locale) }}
 			</span>
 		</div>
 

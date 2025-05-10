@@ -25,8 +25,16 @@ const page = usePage();
 				</NavLink>
 			</div>
 
-			<div class="flex justify-end">
+			<div class="flex justify-end gap-2">
 				<ThemeSwap />
+
+				<NavLink
+					:href="route('settings')"
+					:active="page.component.startsWith('Settings')"
+					class="btn-circle"
+				>
+					<span class="icon-[heroicons--cog-6-tooth]"></span>
+				</NavLink>
 			</div>
 		</nav>
 	</header>
