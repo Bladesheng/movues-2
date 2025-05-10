@@ -102,8 +102,8 @@ watch(activeTab, (activeTab) => {
 							({{ getDaysLeft(releaseDate) }})
 						</div>
 
-						<div v-if="runtimeText === undefined" class="skeleton h-6 w-36"></div>
-						<div v-else-if="runtimeText.length > 0" class="h-6">
+						<div v-if="runtimeText === undefined" class="skeleton h-6 w-50"></div>
+						<div v-else-if="runtimeText.length > 0" class="h-6 w-50">
 							{{ runtimeText }}
 						</div>
 
