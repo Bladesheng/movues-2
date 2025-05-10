@@ -12,20 +12,28 @@ const page = usePage();
 	<header class="flex items-center gap-4 p-2 shadow">
 		<nav class="navbar grid grid-cols-3">
 			<div class="text-primary flex items-center gap-2 text-xl font-bold text-nowrap">
-				<Logo class="text-primary h-14 w-14" />
+				<Logo class="text-primary h-10 w-10 sm:h-14 sm:w-14" />
 				<span class="hidden sm:inline">MoVues 2</span>
 			</div>
 
-			<div class="flex justify-center gap-2">
-				<NavLink :href="route('movies.index')" :active="page.component.startsWith('Movies')">
+			<div class="flex justify-center gap-1 sm:gap-2">
+				<NavLink
+					:href="route('movies.index')"
+					:active="page.component.startsWith('Movies')"
+					class="px-2 sm:px-4"
+				>
 					Movies
 				</NavLink>
-				<NavLink :href="route('tv.index')" :active="page.component.startsWith('Tv')">
+				<NavLink
+					:href="route('tv.index')"
+					:active="page.component.startsWith('Tv')"
+					class="px-2 sm:px-4"
+				>
 					TV Shows
 				</NavLink>
 			</div>
 
-			<div class="flex justify-end gap-2">
+			<div class="flex justify-end gap-1 sm:gap-2">
 				<ThemeSwap />
 
 				<NavLink
