@@ -4,11 +4,11 @@ import PosterCard from '@/components/PosterCard.vue';
 import { ref, watch } from 'vue';
 import { route } from 'ziggy-js';
 import { debounce } from 'throttle-debounce';
-import SliderWithInput from '@/components/SliderWithInput.vue';
 import Card from '@/components/Card.vue';
 import SectionHeading from '@/components/SectionHeading.vue';
 import Pagination from '@/components/Pagination.vue';
 import { IFilters, IGenre, IMedia, IPagination } from '@/types/types.ts';
+import Filters from '@/components/Filters.vue';
 
 defineOptions({ inheritAttrs: false });
 
@@ -38,67 +38,39 @@ watch(filter, refreshFilters, { deep: true });
 
 <template>
 	<div class="flex gap-4">
-		<Card class="self-start" bodyClass="gap-6">
+		<Card class="hidden self-start lg:flex" bodyClass="gap-6">
 			<template #title>
 				<SectionHeading>Filters</SectionHeading>
 			</template>
 
-			<section class="flex min-w-64 flex-col gap-4">
-				Sort by
-				<div class="flex items-center gap-2">
-					<input
-						v-model="filter.order"
-						value="release_date"
-						id="order-release_date"
-						type="radio"
-						class="radio"
-					/>
-					<label for="order-release_date" class="">Release date</label>
-				</div>
-				<div class="flex items-center gap-2">
-					<input
-						v-model="filter.order"
-						value="popularity"
-						id="order-popularity"
-						type="radio"
-						class="radio"
-					/>
-					<label for="order-popularity" class="">Popularity</label>
-				</div>
-
-				<SliderWithInput
-					v-model="filter.popularity"
-					id="popularity"
-					label="Minimum popularity"
-					:max="200"
-					step="5"
-				/>
-
-				<SliderWithInput
-					v-model="filter.age"
-					id="age"
-					:label="`Max. ${mediaName} age (days)`"
-					:max="90"
-				/>
-
-				Genres
-				<div class="flex flex-col gap-2">
-					<div v-for="genre in genres" :key="genre.id" class="flex items-center gap-2">
-						<input
-							v-model="filter.genres"
-							:value="genre.id.toString()"
-							:id="`genre-${genre.id}`"
-							type="checkbox"
-							class="checkbox"
-						/>
-
-						<label :for="`genre-${genre.id}`">
-							{{ genre.name }}
-						</label>
-					</div>
-				</div>
-			</section>
+			<Filters v-model="filter" :genres :mediaName />
 		</Card>
+
+		<button
+			class="btn btn-lg btn-circle fixed right-2 bottom-2 z-1 lg:hidden"
+			onclick="my_modal_1.showModal()"
+		>
+			<span class="icon-[heroicons--funnel]"></span>
+		</button>
+		<dialog id="my_modal_1" class="modal">
+			<div class="modal-box flex w-full flex-col gap-4 rounded-none">
+				<SectionHeading>Filters</SectionHeading>
+
+				<form method="dialog">
+					<button class="btn btn-lg btn-ghost absolute top-2 right-2">
+						<span class="icon-[heroicons--x-mark]"></span>
+					</button>
+				</form>
+
+				<Filters v-model="filter" :genres :mediaName />
+
+				<div class="modal-action">
+					<form method="dialog">
+						<button class="btn">Close</button>
+					</form>
+				</div>
+			</div>
+		</dialog>
 
 		<section class="flex grow flex-col gap-6">
 			<div class="grid gap-4">

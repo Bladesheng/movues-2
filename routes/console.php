@@ -11,7 +11,6 @@ Schedule::call(function () {
 	$page = 1;
 
 	while (true) {
-		//	while ($page < 20) {
 		$response = Tmdb::getMovies($page);
 
 		foreach ($response['results'] as $result) {
@@ -46,7 +45,6 @@ Schedule::call(function () {
 	$page = 1;
 
 	while (true) {
-		//	while ($page < 20) {
 		$response = Tmdb::getTvSeries($page);
 
 		foreach ($response['results'] as $result) {
