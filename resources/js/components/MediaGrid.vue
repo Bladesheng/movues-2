@@ -54,7 +54,7 @@ watch(filter, refreshFilters, { deep: true });
 			<span class="icon-[heroicons--funnel]"></span>
 		</button>
 		<dialog id="my_modal_1" class="modal">
-			<div class="modal-box flex w-full flex-col gap-4 rounded-none">
+			<div class="modal-box flex h-dvh w-full flex-col gap-4 rounded-none">
 				<SectionHeading>Filters</SectionHeading>
 
 				<form method="dialog">
