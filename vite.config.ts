@@ -19,6 +19,10 @@ export default defineConfig({
 		}),
 	],
 
+	build: {
+		sourcemap: true,
+	},
+
 	resolve: {
 		alias: {
 			'ziggy-js': path.resolve('vendor/tightenco/ziggy'),
