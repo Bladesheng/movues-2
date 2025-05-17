@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Genre;
 use App\Models\TvSeries;
 use App\Services\Csfd;
+use App\Services\Imdb;
 use App\Services\Tmdb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -71,6 +72,8 @@ class TvSeriesController extends Controller
 					Carbon::parse($tmdbDetails['first_air_date'])->year
 				)
 			),
+
+			'imdb' => Inertia::defer(fn() => Imdb::getDetails($tmdbDetails['external_ids']['imdb_id'])),
 		]);
 	}
 }

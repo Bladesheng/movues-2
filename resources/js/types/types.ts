@@ -45,3 +45,8 @@ export type IFilters = {
 	order: string;
 	genres: string[];
 };
+
+export type IImdbDetails = {
+	rating: string | null;
+	voteCount: string | null;
+};

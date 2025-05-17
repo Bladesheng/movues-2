@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { getDaysLeft, getFullDateFormatted } from '@/utils/date';
 import SectionHeading from '@/components/SectionHeading.vue';
 import CastList from '@/components/CastList.vue';
@@ -13,6 +13,8 @@ import ImageGallery from '@/components/ImageGallery.vue';
 import VideoGallery from '@/components/VideoGallery.vue';
 import { srcset } from '@/utils/imagesSizes.ts';
 import { locale } from '@/utils/locale.ts';
+import { IImdbDetails } from '@/types/types.ts';
+import RatingRow from '@/components/RatingRow.vue';
 
 const {
 	cast,
@@ -25,12 +27,14 @@ const {
 	networks,
 	overview,
 	posterPath,
-	rating,
+	voteAverage,
+	voteCount,
 	releaseDate,
 	runtimeText,
 	tagline,
 	tmdbLink,
 	videos,
+	imdbDetails,
 } = defineProps<{
 	cast: Cast[];
 	createdBy?: Crew;
@@ -42,17 +46,17 @@ const {
 	networks?: Network[];
 	overview: string;
 	posterPath: string | null | undefined;
-	rating: number;
+	voteAverage: number;
+	voteCount: number;
 	releaseDate: Date;
 	runtimeText?: string;
 	tagline: string;
 	tmdbLink: string;
 	videos: Video[];
+	imdbDetails?: IImdbDetails | null;
 }>();
 
 const activeTab = ref(window.location.hash.replace('#', ''));
-
-const ratingRounded = computed(() => Math.round(rating * 10));
 
 const imagesCount = Object.values(images).reduce((acc, group) => acc + group.length, 0);
 
@@ -175,22 +179,17 @@ watch(activeTab, (activeTab) => {
 				</template>
 
 				<div class="flex flex-col gap-6">
-					<div class="flex items-center gap-4">
-						<a :href="tmdbLink" target="_blank" title="tmdb">
-							<TmdbLogoPrimaryShort class="h-12" />
-						</a>
+					<RatingRow :href="tmdbLink" :rating="Math.round(voteAverage * 10)" :count="voteCount">
+						<TmdbLogoPrimaryShort class="h-12" />
+					</RatingRow>
 
-						<strong class="text-4xl text-nowrap" title="TMDB rating">{{ ratingRounded }}%</strong>
-					</div>
-
-					<a
-						v-if="imdbId !== null"
+					<RatingRow
 						:href="`https://www.imdb.com/title/${imdbId}`"
-						target="_blank"
-						title="imdb"
+						:rating="imdbDetails?.rating ? parseInt(imdbDetails.rating) * 10 : undefined"
+						:count="imdbDetails?.voteCount"
 					>
 						<ImdbLogo class="h-12" />
-					</a>
+					</RatingRow>
 
 					<slot name="csfdCard" />
 				</div>

@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { ICsfdMovie } from '@/types/csfdMovie.ts';
 import CsfdIcon from '@/components/svg/CsfdIcon.vue';
+import RatingRow from '@/components/RatingRow.vue';
 
 const { movie } = defineProps<{
 	movie: ICsfdMovie;
@@ -15,7 +16,7 @@ const isExpanded = ref(false);
 <template>
 	<section class="csfdDetails">
 		<div
-			class="grid grid-cols-3 items-center justify-items-center gap-4 rounded text-nowrap text-white"
+			class="rounded text-white"
 			:class="{
 				colorGood: movie.colorRating === 'good',
 				colorAverage: movie.colorRating === 'average',
@@ -23,15 +24,9 @@ const isExpanded = ref(false);
 				colorUnknown: movie.colorRating === 'unknown',
 			}"
 		>
-			<a :href="movie.url" target="_blank" title="csfd">
+			<RatingRow :href="movie.url" :rating="movie.rating ?? '? '" :count="movie.ratingCount">
 				<CsfdIcon class="h-16 w-16" src="/csfdLogo.svg" alt="csfd logo" />
-			</a>
-
-			<strong class="text-4xl" title="CSFD rating">{{ movie.rating ?? '? ' }}%</strong>
-
-			<span v-if="movie.rating !== null" class="mr-2 text-xl" title="count of CSFD ratings">
-				({{ movie.ratingCount }})
-			</span>
+			</RatingRow>
 		</div>
 
 		<strong class="mt-2 block text-lg">

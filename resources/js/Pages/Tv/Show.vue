@@ -5,16 +5,18 @@ import CsfdDetails from '@/components/CsfdDetails.vue';
 import { computed } from 'vue';
 import TmdbDetails from '@/components/TmdbDetails.vue';
 import { AppendToResponse, TvShowDetails } from 'tmdb-ts';
+import { IImdbDetails } from '@/types/types.ts';
 
 defineOptions({ inheritAttrs: false });
 
-const { tmdb, csfd } = defineProps<{
+const { tmdb, csfd, imdb } = defineProps<{
 	tmdb: AppendToResponse<
 		TvShowDetails,
 		('videos' | 'credits' | 'keywords' | 'images' | 'external_ids')[],
 		'tvShow'
 	>;
 	csfd?: ICsfdMovie | null;
+	imdb?: IImdbDetails | null;
 }>();
 
 const runtimeText = computed(() => {
@@ -52,12 +54,14 @@ const runtimeText = computed(() => {
 		:networks="tmdb.networks"
 		:overview="tmdb.overview"
 		:posterPath="tmdb.poster_path"
-		:rating="tmdb.vote_average"
+		:voteAverage="tmdb.vote_average"
+		:voteCount="tmdb.vote_count"
 		:releaseDate="new Date(tmdb.first_air_date)"
 		:runtimeText="runtimeText"
 		:tagline="tmdb.tagline"
 		:tmdbLink="`https://www.themoviedb.org/tv/${tmdb.id}`"
 		:videos="tmdb.videos.results.filter((video) => video.site === 'YouTube')"
+		:imdbDetails="imdb"
 	>
 		<template #csfdCard>
 			<Deferred data="csfd">
