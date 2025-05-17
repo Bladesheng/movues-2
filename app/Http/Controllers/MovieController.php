@@ -70,10 +70,14 @@ class MovieController extends Controller
 					'movie',
 					$tmdbDetails['title'],
 					Carbon::parse($tmdbDetails['release_date'])->year
-				)
+				),
+				'csfd'
 			),
 
-			'imdb' => Inertia::defer(fn() => Imdb::getDetails($tmdbDetails['external_ids']['imdb_id'])),
+			'imdb' => Inertia::defer(
+				fn() => Imdb::getDetails($tmdbDetails['external_ids']['imdb_id']),
+				'imdb'
+			),
 		]);
 	}
 }

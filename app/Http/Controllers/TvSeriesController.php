@@ -70,10 +70,14 @@ class TvSeriesController extends Controller
 					'tv',
 					$tmdbDetails['name'],
 					Carbon::parse($tmdbDetails['first_air_date'])->year
-				)
+				),
+				'csfd'
 			),
 
-			'imdb' => Inertia::defer(fn() => Imdb::getDetails($tmdbDetails['external_ids']['imdb_id'])),
+			'imdb' => Inertia::defer(
+				fn() => Imdb::getDetails($tmdbDetails['external_ids']['imdb_id']),
+				'imdb'
+			),
 		]);
 	}
 }
