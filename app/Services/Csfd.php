@@ -12,7 +12,7 @@ class Csfd
 	 * @param string $mediaType 'movie' or 'tv'
 	 * @param string $name
 	 * @param int $year
-	 * @return array|mixed
+	 * @return array|mixed|null
 	 * @throws RequestException
 	 */
 	public static function getDetails(string $mediaType, string $name, int $year)

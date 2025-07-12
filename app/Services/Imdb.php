@@ -11,13 +11,15 @@ use Symfony\Component\DomCrawler\Crawler;
 class Imdb
 {
 	/**
-	 * @param string $id
-	 * @return array|mixed
 	 * @throws ConnectionException
 	 * @throws RequestException
 	 */
-	public static function getDetails(string $id)
+	public static function getDetails(string|null $id)
 	{
+		if ($id === null) {
+			return null;
+		}
+
 		$cacheKey = "imdb_details_{$id}";
 		$details = Cache::get($cacheKey);
 		if ($details) {

@@ -185,7 +185,7 @@ watch(activeTab, (activeTab) => {
 
 					<RatingRow
 						:href="`https://www.imdb.com/title/${imdbId}`"
-						:rating="imdbDetails?.rating ? parseInt(imdbDetails.rating) * 10 : undefined"
+						:rating="imdbDetails?.rating ? parseInt(imdbDetails.rating) * 10 : '? '"
 						:count="imdbDetails?.voteCount"
 					>
 						<ImdbLogo class="h-12" />

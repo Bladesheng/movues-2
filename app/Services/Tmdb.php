@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Http;
 class Tmdb
 {
 	/**
-	 * @param string $mediaType 'movie' or 'tv'
-	 * @param string $id
-	 * @return array|mixed
 	 * @throws ConnectionException
 	 * @throws RequestException
 	 */
